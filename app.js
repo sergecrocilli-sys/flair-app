@@ -70,6 +70,7 @@ async function initUser() {
   }
 
   await chargerSignaux();
+  await chargerTop3();
 }
 
 // =========================
