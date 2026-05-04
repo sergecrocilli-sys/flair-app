@@ -197,7 +197,7 @@ function scoringLocal(titre, entreprise) {
   // 1B. RECRUTEMENT INDUSTRIEL
   // =========================
 
-  if (
+    if (
     texte.includes("recrutement") ||
     texte.includes("embauche") ||
     texte.includes("directeur de production") ||
@@ -208,6 +208,14 @@ function scoringLocal(titre, entreprise) {
     score += 15;
     type_signal = 'recrutement';
     raison_score = "Signal de recrutement industriel : peut révéler une évolution d’organisation, une montée en charge ou un projet de ligne.";
+  }
+
+  // Bonus poste stratégique
+  if (
+    texte.includes("directeur") ||
+    texte.includes("responsable")
+  ) {
+    score += 5;
   }
 
   // =========================
