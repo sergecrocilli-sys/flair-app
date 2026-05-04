@@ -193,6 +193,23 @@ function scoringLocal(titre, entreprise) {
     raison_score = "Projet industriel détecté (investissement / construction / modernisation).";
   }
 
+    // =========================
+  // 1B. RECRUTEMENT INDUSTRIEL
+  // =========================
+
+  if (
+    texte.includes("recrutement") ||
+    texte.includes("embauche") ||
+    texte.includes("directeur de production") ||
+    texte.includes("responsable production") ||
+    texte.includes("responsable maintenance") ||
+    texte.includes("responsable qualité")
+  ) {
+    score += 15;
+    type_signal = 'recrutement';
+    raison_score = "Signal de recrutement industriel : peut révéler une évolution d’organisation, une montée en charge ou un projet de ligne.";
+  }
+
   // =========================
   // 2. CAPACITÉ / PRODUCTION
   // =========================
