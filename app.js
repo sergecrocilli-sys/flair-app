@@ -186,7 +186,7 @@ function scoringLocal(titre, entreprise) {
     texte.includes("marché public") ||
     texte.includes("boamp")
   ) {
-    score += 30;
+    score += 20;
     type_signal = 'appel_offre';
     raison_score = "Signal fort : appel d'offre ou marché public pouvant indiquer un besoin d'équipement identifié.";
   }
