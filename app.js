@@ -175,6 +175,22 @@ function scoringLocal(titre, entreprise) {
   let angle_commercial = "Approche découverte.";
   let action_recommandee = "Surveiller.";
 
+    // =========================
+  // 0. APPEL D'OFFRE / MARCHÉ PUBLIC
+  // =========================
+
+  if (
+    texte.includes("appel d'offre") ||
+    texte.includes("appel d’offres") ||
+    texte.includes("appel offre") ||
+    texte.includes("marché public") ||
+    texte.includes("boamp")
+  ) {
+    score += 30;
+    type_signal = 'appel_offre';
+    raison_score = "Signal fort : appel d'offre ou marché public pouvant indiquer un besoin d'équipement identifié.";
+  }
+
   // =========================
   // 1. MOTS CLÉS FORTS (investissement / projet)
   // =========================
