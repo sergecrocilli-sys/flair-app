@@ -7,20 +7,35 @@
 </head>
 <body>
 
+  <body>
+
   <h1>🔥 FLAIR</h1>
-  <h2>Mes opportunités du jour</h2>
+  <h2>Détecteur de Signaux Commerciaux</h2>
 
-  <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+  <!-- AUTH -->
+  <div id="auth">
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Mot de passe" />
+    <button onclick="signUp()">Créer mon compte</button>
+    <button onclick="signIn()">Se connecter</button>
+  </div>
 
-  <div id="signaux"></div>
+  <!-- APP -->
+  <div id="app" style="display:none;">
+    <button onclick="logout()">Se déconnecter</button>
 
-  <hr>
+    <h3>Mes signaux</h3>
+    <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
 
-  <h3>➕ Ajouter un signal</h3>
+    <div id="signaux"></div>
 
-  <input id="titre" placeholder="Titre" />
-  <input id="entreprise" placeholder="Entreprise" />
-  <button onclick="ajouterSignal()">Ajouter</button>
+    <hr>    
+
+    <h3>➕ Ajouter un signal</h3>
+    <input id="titre" placeholder="Titre" />
+    <input id="entreprise" placeholder="Entreprise" />
+    <button onclick="ajouterSignal()">Ajouter</button>
+  </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
