@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>FLAIR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>🔥 FLAIR</h1>
+  <h2>Mes opportunités du jour</h2>
+
+  <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+
+  <div id="signaux"></div>
+
+  <hr>
+
+  <h3>➕ Ajouter un signal</h3>
+
+  <input id="titre" placeholder="Titre" />
+  <input id="entreprise" placeholder="Entreprise" />
+  <button onclick="ajouterSignal()">Ajouter</button>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
