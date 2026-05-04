@@ -393,6 +393,7 @@ window.logout = logout;
 window.chargerSignaux = chargerSignaux;
 window.ajouterSignal = ajouterSignal;
 window.analyserSignal = analyserSignal;
+window.chargerTop3 = chargerTop3;
 
 // =========================
 // SESSION AUTO AU CHARGEMENT
