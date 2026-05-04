@@ -247,6 +247,8 @@ function scoringLocal(titre, entreprise) {
     texte.includes("abattoir") ||
     texte.includes("viande") ||
     texte.includes("volaille") ||
+    texte.includes("salaison") ||
+    texte.includes("charcuterie") ||
     texte.includes("fromage") ||
     texte.includes("laiterie") ||
     texte.includes("fruits") ||
