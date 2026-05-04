@@ -93,7 +93,7 @@ async function chargerSignaux() {
     .from('signaux')
     .select('*')
     .order('created_at', { ascending: false })
-    .limit(10);
+    .limit(20);
 
   if (error) {
     console.error("Erreur chargement signaux :", error);
@@ -111,55 +111,28 @@ async function chargerSignaux() {
 
   data.forEach(s => {
     const div = document.createElement('div');
+
     div.innerHTML = `
-      <b>${s.titre}</b><br>
-      ${s.entreprise_nom || ''}<br>
-      Score : ${s.score_pertinence || '-'}<br>
-      Statut : ${s.statut || '-'}<br>
+      <div class="signal-card">
+        <b>${s.titre}</b><br>
+        ${s.entreprise_nom || ''}<br>
+        Score : ${s.score_pertinence || '-'}<br>
+        Chaleur : ${s.chaleur || '-'}<br>
+        Type : ${s.type_signal || '-'}<br>
+        Statut : ${s.statut || '-'}<br>
+        ${s.raison_score ? `<small><b>Pourquoi :</b> ${s.raison_score}</small><br>` : ''}
+        ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
+        ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
+        <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
+          Analyser
+        </button>
+      </div>
       <hr>
     `;
+
     container.appendChild(div);
   });
 }
-
-async function ajouterSignal() {
-  if (!user) {
-    alert("Tu dois être connecté.");
-    return;
-  }
-
-  const titre = document.getElementById('titre').value.trim();
-  const entreprise = document.getElementById('entreprise').value.trim();
-
-  if (!titre) {
-    alert("Merci de saisir un titre.");
-    return;
-  }
-
-  const { error } = await supabaseClient
-    .from('signaux')
-    .insert([
-      {
-        commercial_id: user.id,
-        titre: titre,
-        entreprise_nom: entreprise,
-        statut: 'nouveau',
-        type_source: 'manuel'
-      }
-    ]);
-
-  if (error) {
-    console.error("Erreur insertion :", error);
-    alert("Erreur insertion : " + error.message);
-    return;
-  }
-
-  document.getElementById('titre').value = "";
-  document.getElementById('entreprise').value = "";
-
-  await chargerSignaux();
-}
-
 // =========================
 // EXPOSER LES FONCTIONS AUX BOUTONS HTML
 // =========================
