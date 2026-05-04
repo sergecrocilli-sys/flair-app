@@ -3,7 +3,92 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+let user = null;
+
+// =========================
+// AUTH
+// =========================
+
+async function signUp() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  const { error } = await supabaseClient.auth.signUp({ email, password });
+
+  if (error) {
+    alert("Erreur création compte : " + error.message);
+    return;
+  }
+
+  alert("Compte créé. Vérifie ton email si Supabase le demande.");
+}
+
+async function signIn() {
+  const email = document.getElementById('email').value.trim();
+  const password = document.getElementById('password').value.trim();
+
+  const { data, error } = await supabaseClient.auth.signInWithPassword({
+    email,
+    password
+  });
+
+  if (error) {
+    alert("Erreur connexion : " + error.message);
+    return;
+  }
+
+  user = data.user;
+  await initUser();
+}
+
+async function logout() {
+  await supabaseClient.auth.signOut();
+  location.reload();
+}
+
+async function initUser() {
+  document.getElementById('auth').style.display = "none";
+  document.getElementById('app').style.display = "block";
+
+  const { data, error } = await supabaseClient
+    .from('commerciaux')
+    .select('*')
+    .eq('id', user.id)
+    .maybeSingle();
+
+  if (error) {
+    console.error("Erreur lecture commercial :", error);
+    alert("Erreur lecture profil commercial : " + error.message);
+    return;
+  }
+
+  if (!data) {
+    const { error: insertError } = await supabaseClient
+      .from('commerciaux')
+      .insert([
+        {
+          id: user.id,
+          email: user.email
+        }
+      ]);
+
+    if (insertError) {
+      console.error("Erreur création commercial :", insertError);
+      alert("Erreur création profil commercial : " + insertError.message);
+      return;
+    }
+  }
+
+  await chargerSignaux();
+}
+
+// =========================
+// SIGNAUX
+// =========================
+
 async function chargerSignaux() {
+  if (!user) return;
+
   const { data, error } = await supabaseClient
     .from('signaux')
     .select('*')
@@ -38,6 +123,11 @@ async function chargerSignaux() {
 }
 
 async function ajouterSignal() {
+  if (!user) {
+    alert("Tu dois être connecté.");
+    return;
+  }
+
   const titre = document.getElementById('titre').value.trim();
   const entreprise = document.getElementById('entreprise').value.trim();
 
@@ -50,6 +140,7 @@ async function ajouterSignal() {
     .from('signaux')
     .insert([
       {
+        commercial_id: user.id,
         titre: titre,
         entreprise_nom: entreprise,
         statut: 'nouveau',
@@ -69,7 +160,23 @@ async function ajouterSignal() {
   await chargerSignaux();
 }
 
+// =========================
+// EXPOSER LES FONCTIONS AUX BOUTONS HTML
+// =========================
+
+window.signUp = signUp;
+window.signIn = signIn;
+window.logout = logout;
 window.chargerSignaux = chargerSignaux;
 window.ajouterSignal = ajouterSignal;
 
-chargerSignaux();
+// =========================
+// SESSION AUTO AU CHARGEMENT
+// =========================
+
+supabaseClient.auth.getSession().then(({ data }) => {
+  if (data.session) {
+    user = data.session.user;
+    initUser();
+  }
+});
