@@ -188,7 +188,7 @@ function scoringLocal(titre, entreprise) {
     texte.includes("modernisation") ||
     texte.includes("extension")
   ) {
-    score += 35;
+    score += 25;
     type_signal = 'investissement';
     raison_score = "Projet industriel détecté (investissement / construction / modernisation).";
   }
@@ -228,7 +228,7 @@ function scoringLocal(titre, entreprise) {
     texte.includes("augmentation") ||
     texte.includes("cadence")
   ) {
-    score += 20;
+    score += 15;
     raison_score += " Impact sur la capacité de production.";
   }
 
@@ -242,7 +242,7 @@ function scoringLocal(titre, entreprise) {
     texte.includes("emballage") ||
     texte.includes("découpe")
   ) {
-    score += 25;
+    score += 20;
     type_signal = 'nouvelle_ligne';
     raison_score += " Présence de ligne ou conditionnement.";
   }
@@ -263,7 +263,7 @@ function scoringLocal(titre, entreprise) {
     texte.includes("légumes") ||
     texte.includes("traiteur")
   ) {
-    score += 10;
+    score += 5;
   }
 
   // =========================
