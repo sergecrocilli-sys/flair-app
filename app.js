@@ -169,73 +169,97 @@ function escapeBackticks(value) {
 function scoringLocal(titre, entreprise) {
   const texte = `${titre || ''} ${entreprise || ''}`.toLowerCase();
 
-  let score = 35;
+  let score = 30;
   let type_signal = 'autre';
-  let raison_score = "Signal peu qualifié : information intéressante mais besoin à confirmer.";
-  let angle_commercial = "Approche découverte : comprendre le contexte industriel et les éventuels projets en cours.";
-  let action_recommandee = "Surveiller l'entreprise ou rechercher un contact production / maintenance / qualité.";
+  let raison_score = "Signal peu qualifié.";
+  let angle_commercial = "Approche découverte.";
+  let action_recommandee = "Surveiller.";
 
-  if (texte.includes("appel d'offre") || texte.includes("appel d’offres") || texte.includes("boamp") || texte.includes("marché public")) {
-    score = 85;
-    type_signal = 'appel_offre';
-    raison_score = "Signal fort : appel d'offre ou marché public pouvant indiquer un projet d'équipement.";
-    angle_commercial = "Approche projet : identifier le besoin, les contraintes techniques et le calendrier.";
-    action_recommandee = "Rechercher le donneur d'ordre et préparer une prise de contact ciblée.";
+  // =========================
+  // 1. MOTS CLÉS FORTS (investissement / projet)
+  // =========================
+
+  if (
+    texte.includes("investissement") ||
+    texte.includes("millions") ||
+    texte.includes("projet") ||
+    texte.includes("construction") ||
+    texte.includes("nouveau") ||
+    texte.includes("modernisation") ||
+    texte.includes("extension")
+  ) {
+    score += 35;
+    type_signal = 'investissement';
+    raison_score = "Projet industriel détecté (investissement / construction / modernisation).";
   }
 
-  if (texte.includes("nouvelle ligne") || texte.includes("ligne de production") || texte.includes("conditionnement") || texte.includes("emballage")) {
-    score = Math.max(score, 80);
+  // =========================
+  // 2. CAPACITÉ / PRODUCTION
+  // =========================
+
+  if (
+    texte.includes("capacité") ||
+    texte.includes("production") ||
+    texte.includes("augmentation") ||
+    texte.includes("cadence")
+  ) {
+    score += 20;
+    raison_score += " Impact sur la capacité de production.";
+  }
+
+  // =========================
+  // 3. LIGNE / CONDITIONNEMENT (très fort)
+  // =========================
+
+  if (
+    texte.includes("ligne") ||
+    texte.includes("conditionnement") ||
+    texte.includes("emballage") ||
+    texte.includes("découpe")
+  ) {
+    score += 25;
     type_signal = 'nouvelle_ligne';
-    raison_score = "Signal fort : mention d'une ligne, du conditionnement ou de l'emballage.";
-    angle_commercial = "Approche productivité / traçabilité : pesage-étiquetage, contrôle qualité, fiabilité ligne.";
-    action_recommandee = "Identifier le responsable production ou maintenance et proposer un échange court.";
+    raison_score += " Présence de ligne ou conditionnement.";
   }
 
-  if (texte.includes("extension") || texte.includes("agrandissement") || texte.includes("nouveau bâtiment") || texte.includes("nouvel atelier")) {
-    score = Math.max(score, 78);
-    type_signal = 'extension_site';
-    raison_score = "Signal intéressant : extension ou nouvel atelier pouvant précéder des investissements équipements.";
-    angle_commercial = "Approche anticipation : accompagner le choix d'équipements avant finalisation du projet.";
-    action_recommandee = "Identifier directeur de site / production et se positionner tôt dans le projet.";
+  // =========================
+  // 4. SECTEUR AGRO (bonus)
+  // =========================
+
+  if (
+    texte.includes("abattoir") ||
+    texte.includes("viande") ||
+    texte.includes("volaille") ||
+    texte.includes("fromage") ||
+    texte.includes("laiterie") ||
+    texte.includes("fruits") ||
+    texte.includes("légumes") ||
+    texte.includes("traiteur")
+  ) {
+    score += 10;
   }
 
-  if (texte.includes("recrutement") || texte.includes("embauche") || texte.includes("responsable maintenance") || texte.includes("responsable production") || texte.includes("responsable qualité") || texte.includes("directeur production")) {
-    score = Math.max(score, 70);
-    type_signal = 'recrutement';
-    raison_score = "Signal moyen à fort : recrutement d'un profil industriel pouvant révéler une évolution d'organisation ou de ligne.";
-    angle_commercial = "Approche contexte : comprendre les enjeux production, maintenance ou qualité du site.";
-    action_recommandee = "Surveiller l'arrivée du nouveau responsable ou contacter le site avec un angle terrain.";
-  }
-
-  if (texte.includes("certification") || texte.includes("ifs") || texte.includes("brc") || texte.includes("audit") || texte.includes("qualité")) {
-    score = Math.max(score, 65);
-    type_signal = 'qualite';
-    raison_score = "Signal qualité : certification, audit ou exigence de conformité pouvant ouvrir un échange utile.";
-    angle_commercial = "Approche conformité / traçabilité : sécurisation des contrôles et des preuves qualité.";
-    action_recommandee = "Identifier le responsable qualité et proposer un échange sur les contrôles en ligne.";
-  }
-
-  if (texte.includes("viande") || texte.includes("abattoir") || texte.includes("boucherie") || texte.includes("steak") || texte.includes("haché") || texte.includes("salaison") || texte.includes("charcuterie")) {
-    score += 8;
-  }
-
-  if (texte.includes("fromage") || texte.includes("fromagerie") || texte.includes("fruitière") || texte.includes("laiterie")) {
-    score += 8;
-  }
-
-  if (texte.includes("fruits") || texte.includes("légumes") || texte.includes("conditionnement fruits") || texte.includes("station")) {
-    score += 6;
-  }
-
-  if (texte.includes("plats cuisinés") || texte.includes("traiteur") || texte.includes("barquette")) {
-    score += 8;
-  }
+  // =========================
+  // NORMALISATION
+  // =========================
 
   score = Math.min(score, 100);
 
   let chaleur = 'froid';
   if (score >= 80) chaleur = 'chaud';
   else if (score >= 60) chaleur = 'tiede';
+
+  // =========================
+  // ANGLE + ACTION
+  // =========================
+
+  if (score >= 80) {
+    angle_commercial = "Projet en cours : positionnement rapide sur équipements.";
+    action_recommandee = "Identifier décideur production / maintenance et prendre contact rapidement.";
+  } else if (score >= 60) {
+    angle_commercial = "Opportunité probable à moyen terme.";
+    action_recommandee = "Surveiller + identifier contact.";
+  }
 
   return {
     score_pertinence: score,
