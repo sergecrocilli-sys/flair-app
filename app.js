@@ -123,6 +123,50 @@ async function chargerSignaux() {
   });
 }
 
+async function chargerTop3() {
+  if (!user) return;
+
+  const { data, error } = await supabaseClient
+    .from('signaux')
+    .select('*')
+    .eq('statut', 'analyse')
+    .order('score_pertinence', { ascending: false })
+    .order('date_signal', { ascending: false, nullsFirst: false })
+    .limit(3);
+
+  if (error) {
+    alert("Erreur chargement Top 3 : " + error.message);
+    return;
+  }
+
+  const container = document.getElementById('top3');
+  container.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>Aucun signal analysé pour le moment.</p>";
+    return;
+  }
+
+  data.forEach((s, index) => {
+    const div = document.createElement('div');
+
+    div.innerHTML = `
+      <div class="signal-card">
+        <b>#${index + 1} — ${s.titre}</b><br>
+        ${s.entreprise_nom || ''}<br>
+        Score : ${s.score_pertinence || '-'}<br>
+        Chaleur : ${s.chaleur || '-'}<br>
+        Type : ${s.type_signal || '-'}<br>
+        ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
+        ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
+      </div>
+      <hr>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
 async function ajouterSignal() {
   if (!user) {
     alert("Tu dois être connecté.");
