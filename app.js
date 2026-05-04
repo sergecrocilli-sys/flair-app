@@ -1,59 +1,75 @@
 const SUPABASE_URL = "https://viafuquomtshuzuldwpq.supabase.co";
-const SUPABASE_ANON_KEY = "TA_CLE_ANON_ICI";
+const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Charger les signaux
 async function chargerSignaux() {
-  const { data, error } = await supabase
+  const { data, error } = await supabaseClient
     .from('signaux')
     .select('*')
     .order('created_at', { ascending: false })
     .limit(10);
 
   if (error) {
-    console.error(error);
+    console.error("Erreur chargement signaux :", error);
+    alert("Erreur chargement signaux : " + error.message);
     return;
   }
 
   const container = document.getElementById('signaux');
   container.innerHTML = "";
 
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>Aucun signal pour le moment.</p>";
+    return;
+  }
+
   data.forEach(s => {
     const div = document.createElement('div');
     div.innerHTML = `
       <b>${s.titre}</b><br>
       ${s.entreprise_nom || ''}<br>
-      Score: ${s.score_pertinence || '-'}<br>
+      Score : ${s.score_pertinence || '-'}<br>
+      Statut : ${s.statut || '-'}<br>
       <hr>
     `;
     container.appendChild(div);
   });
 }
 
-// Ajouter un signal
 async function ajouterSignal() {
-  const titre = document.getElementById('titre').value;
-  const entreprise = document.getElementById('entreprise').value;
+  const titre = document.getElementById('titre').value.trim();
+  const entreprise = document.getElementById('entreprise').value.trim();
 
-  const { error } = await supabase
+  if (!titre) {
+    alert("Merci de saisir un titre.");
+    return;
+  }
+
+  const { error } = await supabaseClient
     .from('signaux')
     .insert([
       {
         titre: titre,
         entreprise_nom: entreprise,
-        statut: 'nouveau'
+        statut: 'nouveau',
+        type_source: 'manuel'
       }
     ]);
 
   if (error) {
-    console.error(error);
-    alert("Erreur insertion");
+    console.error("Erreur insertion :", error);
+    alert("Erreur insertion : " + error.message);
     return;
   }
 
-  chargerSignaux();
+  document.getElementById('titre').value = "";
+  document.getElementById('entreprise').value = "";
+
+  await chargerSignaux();
 }
 
-// Chargement initial
+window.chargerSignaux = chargerSignaux;
+window.ajouterSignal = ajouterSignal;
+
 chargerSignaux();
