@@ -285,6 +285,7 @@ async function ajouterSignal() {
 
   await chargerSignaux();
   await chargerTop3();
+  await chargerAContacter();
 }
 
 async function changerStatut(signalId, nouveauStatut) {
@@ -302,6 +303,7 @@ async function changerStatut(signalId, nouveauStatut) {
 
   await chargerSignaux();
   await chargerTop3();
+  await chargerAContacter();
 }
 // =========================
 // SCORING LOCAL FLAIR
@@ -483,6 +485,7 @@ async function analyserSignal(id, titre, entreprise) {
 
   await chargerSignaux();
   await chargerTop3();
+  await chargerAContacter();
   }
 
 // =========================
