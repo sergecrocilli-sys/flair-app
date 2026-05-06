@@ -120,12 +120,16 @@ async function chargerSignaux() {
             🧠 Analyser
           </button>
 
+          <button onclick="changerStatut('${s.id}', 'a_contacter')">
+        📌 À contacter
+          </button>
+
           <button onclick="changerStatut('${s.id}', 'traite')">
-            ✅ Traité
+        ✅ Traité
           </button>
 
           <button onclick="changerStatut('${s.id}', 'ignore')">
-            ❌ Ignorer
+        ❌ Ignorer
           </button>
         </div>
       </div>
