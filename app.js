@@ -421,7 +421,8 @@ async function analyserSignal(id, titre, entreprise) {
   }
 
   await chargerSignaux();
-}
+  await chargerTop3();
+  }
 
 // =========================
 // EXPOSER LES FONCTIONS AUX BOUTONS HTML
