@@ -497,6 +497,7 @@ window.signIn = signIn;
 window.logout = logout;
 window.chargerSignaux = chargerSignaux;
 window.chargerTop3 = chargerTop3;
+window.chargerAContacter = chargerAContacter;
 window.ajouterSignal = ajouterSignal;
 window.analyserSignal = analyserSignal;
 window.changerStatut = changerStatut;
