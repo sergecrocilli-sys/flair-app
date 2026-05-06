@@ -83,6 +83,7 @@ async function chargerSignaux() {
   const { data, error } = await supabaseClient
     .from('signaux')
     .select('*')
+    .not('statut', 'in', '("traite","ignore")')
     .order('created_at', { ascending: false })
     .limit(20);
 
@@ -95,7 +96,7 @@ async function chargerSignaux() {
   container.innerHTML = "";
 
   if (!data || data.length === 0) {
-    container.innerHTML = "<p>Aucun signal pour le moment.</p>";
+    container.innerHTML = "<p>Aucun signal actif pour le moment.</p>";
     return;
   }
 
@@ -113,19 +114,20 @@ async function chargerSignaux() {
         ${s.raison_score ? `<small><b>Pourquoi :</b> ${s.raison_score}</small><br>` : ''}
         ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
+
         <div style="margin-top:8px;">
-  <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
-    🧠 Analyser
-  </button>
+          <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
+            🧠 Analyser
+          </button>
 
-  <button onclick="changerStatut('${s.id}', 'traite')">
-    ✅ Traité
-  </button>
+          <button onclick="changerStatut('${s.id}', 'traite')">
+            ✅ Traité
+          </button>
 
-  <button onclick="changerStatut('${s.id}', 'ignore')">
-    ❌ Ignorer
-  </button>
-  </div>
+          <button onclick="changerStatut('${s.id}', 'ignore')">
+            ❌ Ignorer
+          </button>
+        </div>
       </div>
       <hr>
     `;
@@ -170,6 +172,16 @@ async function chargerTop3() {
         Type : ${s.type_signal || '-'}<br>
         ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
+
+        <div style="margin-top:8px;">
+          <button onclick="changerStatut('${s.id}', 'traite')">
+            ✅ Traité
+          </button>
+
+          <button onclick="changerStatut('${s.id}', 'ignore')">
+            ❌ Ignorer
+          </button>
+        </div>
       </div>
       <hr>
     `;
@@ -178,23 +190,7 @@ async function chargerTop3() {
   });
 }
 
-async function changerStatut(signalId, nouveauStatut) {
-
-  const { error } = await supabaseClient
-    .from('signaux')
-    .update({
-      statut: nouveauStatut
-    })
-    .eq('id', signalId);
-
-  if (error) {
-    alert("Erreur mise à jour statut : " + error.message);
-    return;
-  }
-
-  await chargerSignaux();
-  await chargerTop3();
-}
+async function ajouterSignal() {
   if (!user) {
     alert("Tu dois être connecté.");
     return;
@@ -227,8 +223,25 @@ async function changerStatut(signalId, nouveauStatut) {
   document.getElementById('entreprise').value = "";
 
   await chargerSignaux();
+  await chargerTop3();
 }
 
+async function changerStatut(signalId, nouveauStatut) {
+  const { error } = await supabaseClient
+    .from('signaux')
+    .update({
+      statut: nouveauStatut
+    })
+    .eq('id', signalId);
+
+  if (error) {
+    alert("Erreur mise à jour statut : " + error.message);
+    return;
+  }
+
+  await chargerSignaux();
+  await chargerTop3();
+}
 // =========================
 // SCORING LOCAL FLAIR
 // =========================
