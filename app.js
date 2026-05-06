@@ -113,9 +113,19 @@ async function chargerSignaux() {
         ${s.raison_score ? `<small><b>Pourquoi :</b> ${s.raison_score}</small><br>` : ''}
         ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
-        <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
-          Analyser
-        </button>
+        <div style="margin-top:8px;">
+  <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
+    🧠 Analyser
+  </button>
+
+  <button onclick="changerStatut('${s.id}', 'traite')">
+    ✅ Traité
+  </button>
+
+  <button onclick="changerStatut('${s.id}', 'ignore')">
+    ❌ Ignorer
+  </button>
+  </div>
       </div>
       <hr>
     `;
@@ -168,7 +178,23 @@ async function chargerTop3() {
   });
 }
 
-async function ajouterSignal() {
+async function changerStatut(signalId, nouveauStatut) {
+
+  const { error } = await supabaseClient
+    .from('signaux')
+    .update({
+      statut: nouveauStatut
+    })
+    .eq('id', signalId);
+
+  if (error) {
+    alert("Erreur mise à jour statut : " + error.message);
+    return;
+  }
+
+  await chargerSignaux();
+  await chargerTop3();
+}
   if (!user) {
     alert("Tu dois être connecté.");
     return;
