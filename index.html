@@ -7,8 +7,6 @@
 </head>
 <body>
 
-  <body>
-
   <h1>🔥 FLAIR</h1>
   <h2>Détecteur de Signaux Commerciaux</h2>
 
@@ -24,23 +22,22 @@
   <div id="app" style="display:none;">
     <button onclick="logout()">Se déconnecter</button>
 
-    <h3>Mes signaux</h3>
-    <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
-
     <h3>🔥 Top 3 du jour</h3>
     <button onclick="chargerTop3()">Afficher le Top 3</button>
     <div id="top3"></div>
 
     <hr>
 
-    <div id="signaux"></div>
-
-    <hr>    
-
     <h3>➕ Ajouter un signal</h3>
-    <input id="titre" placeholder="Titre" />
+    <input id="titre" placeholder="Titre du signal" />
     <input id="entreprise" placeholder="Entreprise" />
     <button onclick="ajouterSignal()">Ajouter</button>
+
+    <hr>
+
+    <h3>📂 Tous les signaux actifs</h3>
+    <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+    <div id="signaux"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
