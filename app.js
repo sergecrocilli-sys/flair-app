@@ -178,13 +178,17 @@ async function chargerTop3() {
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
 
         <div style="margin-top:8px;">
-          <button onclick="changerStatut('${s.id}', 'traite')">
-            ✅ Traité
-          </button>
+         <button onclick="changerStatut('${s.id}', 'a_contacter')">
+          📌 À contacter
+         </button>
 
-          <button onclick="changerStatut('${s.id}', 'ignore')">
-            ❌ Ignorer
-          </button>
+         <button onclick="changerStatut('${s.id}', 'traite')">
+          ✅ Traité
+         </button>
+
+         <button onclick="changerStatut('${s.id}', 'ignore')">
+          ❌ Ignorer
+</button>
         </div>
       </div>
       <hr>
