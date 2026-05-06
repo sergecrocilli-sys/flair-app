@@ -342,19 +342,23 @@ function scoringLocal(titre, entreprise) {
   // 1. MOTS CLÉS FORTS (investissement / projet)
   // =========================
 
-  if (
-    texte.includes("investissement") ||
-    texte.includes("millions") ||
-    texte.includes("projet") ||
-    texte.includes("construction") ||
-    texte.includes("nouveau") ||
-    texte.includes("modernisation") ||
-    texte.includes("extension")
-  ) {
-    score += 25;
-    type_signal = 'investissement';
-    raison_score = "Projet industriel détecté (investissement / construction / modernisation).";
-  }
+ if (
+  texte.includes("investissement") ||
+  texte.includes("millions") ||
+  texte.includes("projet") ||
+  texte.includes("construction") ||
+  texte.includes("nouveau") ||
+  texte.includes("nouvelle usine") ||
+  texte.includes("nouveau projet") || 
+  texte.includes("usine") ||
+  texte.includes("ultramoderne") ||
+  texte.includes("modernisation") ||
+  texte.includes("extension")
+) {
+  score += 25;
+  type_signal = 'investissement';
+  raison_score = "Projet industriel détecté (investissement / construction / modernisation / nouvelle usine).";
+}
 
     // =========================
   // 1B. RECRUTEMENT INDUSTRIEL
@@ -401,6 +405,8 @@ function scoringLocal(titre, entreprise) {
 
   if (
     texte.includes("ligne") ||
+    texte.includes("nouvelles lignes") ||
+    texte.includes("fabrication") ||
     texte.includes("conditionnement") ||
     texte.includes("emballage") ||
     texte.includes("découpe")
@@ -409,6 +415,20 @@ function scoringLocal(titre, entreprise) {
     type_signal = 'nouvelle_ligne';
     raison_score += " Présence de ligne ou conditionnement.";
   }
+
+  // Bonus combo : nouvelle usine + ligne / fabrication / conditionnement
+if (
+  (texte.includes("nouvelle usine") || texte.includes("usine")) &&
+  (
+    texte.includes("ligne") ||
+    texte.includes("nouvelles lignes") ||
+    texte.includes("conditionnement") ||
+    texte.includes("fabrication")
+  )
+) {
+  score += 15;
+  raison_score += " Nouvelle usine avec ligne, fabrication ou conditionnement.";
+}
 
   // =========================
   // 4. SECTEUR AGRO (bonus)
