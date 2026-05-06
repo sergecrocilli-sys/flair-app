@@ -198,6 +198,59 @@ async function chargerTop3() {
   });
 }
 
+async function chargerAContacter() {
+  if (!user) return;
+
+  const { data, error } = await supabaseClient
+    .from('signaux')
+    .select('*')
+    .eq('statut', 'a_contacter')
+    .order('score_pertinence', { ascending: false });
+
+  if (error) {
+    alert("Erreur chargement à contacter : " + error.message);
+    return;
+  }
+
+  const container = document.getElementById('aContacter');
+  container.innerHTML = "";
+
+  if (!data || data.length === 0) {
+    container.innerHTML = "<p>Aucun signal à contacter.</p>";
+    return;
+  }
+
+  data.forEach(s => {
+    const div = document.createElement('div');
+
+    div.innerHTML = `
+      <div class="signal-card">
+        <b>${s.titre}</b><br>
+        ${s.entreprise_nom || ''}<br>
+        Score : ${s.score_pertinence || '-'}<br>
+        Chaleur : ${s.chaleur || '-'}<br>
+
+        ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
+
+        <div style="margin-top:8px;">
+
+          <button onclick="changerStatut('${s.id}', 'traite')">
+            ✅ Traité
+          </button>
+
+          <button onclick="changerStatut('${s.id}', 'ignore')">
+            ❌ Ignorer
+          </button>
+
+        </div>
+      </div>
+      <hr>
+    `;
+
+    container.appendChild(div);
+  });
+}
+
 async function ajouterSignal() {
   if (!user) {
     alert("Tu dois être connecté.");
