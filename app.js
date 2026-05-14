@@ -566,7 +566,7 @@ window.chargerSignaux = chargerSignaux;
 window.chargerTop3 = chargerTop3;
 window.chargerAContacter = chargerAContacter;
 window.ajouterSignal = ajouterSignal;
-window.analyserSignal = analyserSignal;
+window.analyserNouveauxSignaux = analyserNouveauxSignaux;
 window.changerStatut = changerStatut;
 
 // =========================
