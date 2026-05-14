@@ -528,10 +528,24 @@ async function analyserNouveauxSignaux() {
   }
 
   for (const signal of data) {
-  const resultat = scoringLocal(
-    signal.titre,
-    signal.entreprise_nom
-  );
+  const texteComplet = [
+  signal.titre,
+  signal.entreprise_nom,
+  signal.description,
+  signal.contenu,
+  signal.resume,
+  signal.source,
+  signal.type_source
+].filter(Boolean).join(' ');
+
+console.log("Texte analysé :", texteComplet);
+
+const resultat = scoringLocal(
+  texteComplet,
+  ''
+);
+
+console.log("Résultat scoring :", resultat);
 
   const { error: updateError } = await supabaseClient
     .from('signaux')
