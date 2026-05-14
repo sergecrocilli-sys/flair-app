@@ -518,7 +518,7 @@ async function analyserNouveauxSignaux() {
  const { data, error } = await supabaseClient
   .from('signaux')
   .select('*')
-  .in('statut', ['nouveau', 'analyse']);
+  .eq('statut', 'nouveau');
   
   if (error) {
     alert("Erreur chargement signaux : " + error.message);
