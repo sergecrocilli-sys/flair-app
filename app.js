@@ -492,13 +492,16 @@ if (
   // ANGLE + ACTION
   // =========================
 
-  if (score >= 80) {
-    angle_commercial = "Projet en cours : positionnement rapide sur équipements.";
-    action_recommandee = "Identifier décideur production / maintenance et prendre contact rapidement.";
-  } else if (score >= 60) {
-    angle_commercial = "Opportunité probable à moyen terme.";
-    action_recommandee = "Surveiller + identifier contact.";
-  }
+  if (type_signal === 'qualite_rappel_conso') {
+  angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
+  action_recommandee = "Surveiller + identifier responsable qualité ou maintenance.";
+} else if (score >= 80) {
+  angle_commercial = "Projet en cours : positionnement rapide sur équipements.";
+  action_recommandee = "Identifier décideur production / maintenance et prendre contact rapidement.";
+} else if (score >= 60) {
+  angle_commercial = "Opportunité probable à moyen terme.";
+  action_recommandee = "Surveiller + identifier contact.";
+}
 
   return {
     score_pertinence: score,
