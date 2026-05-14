@@ -82,11 +82,11 @@ async function chargerSignaux() {
   if (!user) return;
 
   const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'nouveau');
-    .order('created_at', { ascending: false })
-    .limit(20);
+  .from('signaux')
+  .select('*')
+  .not('statut', 'in', '("traite","ignore","a_contacter")')
+  .order('created_at', { ascending: false })
+  .limit(20);
 
   if (error) {
     alert("Erreur chargement signaux : " + error.message);
