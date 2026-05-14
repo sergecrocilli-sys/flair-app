@@ -528,26 +528,29 @@ async function analyserNouveauxSignaux() {
   }
 
   for (const signal of data) {
+  const resultat = scoringLocal(
+    signal.titre,
+    signal.entreprise_nom
+  );
 
-    const resultat = scoringLocal(
-      signal.titre,
-      signal.entreprise_nom
-    );
+  const { error: updateError } = await supabaseClient
+    .from('signaux')
+    .update({
+      score_pertinence: resultat.score_pertinence,
+      chaleur: resultat.chaleur,
+      type_signal: resultat.type_signal,
+      raison_score: resultat.raison_score,
+      angle_commercial: resultat.angle_commercial,
+      action_recommandee: resultat.action_recommandee,
+      traite_par_ia: false,
+      statut: 'analyse'
+    })
+    .eq('id', signal.id);
 
-    await supabaseClient
-      .from('signaux')
-      .update({
-        score_pertinence: resultat.score_pertinence,
-        chaleur: resultat.chaleur,
-        type_signal: resultat.type_signal,
-        raison_score: resultat.raison_score,
-        angle_commercial: resultat.angle_commercial,
-        action_recommandee: resultat.action_recommandee,
-        traite_par_ia: false,
-        statut: 'analyse'
-      })
-      .eq('id', signal.id);
+  if (updateError) {
+    console.error("Erreur update signal :", signal.id, updateError);
   }
+}
 
   await chargerSignaux();
   await chargerTop3();
