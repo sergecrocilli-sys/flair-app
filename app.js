@@ -311,6 +311,36 @@ function escapeBackticks(value) {
   return String(value || '').replace(/`/g, "\\`");
 }
 
+function badge(label, type) {
+  return `<span class="badge badge-${type}">${label}</span>`;
+}
+
+function badgeChaleur(chaleur) {
+  if (chaleur === 'chaud') return badge('🔥 chaud', 'chaud');
+  if (chaleur === 'tiede') return badge('🟠 tiède', 'tiede');
+  return badge('❄️ froid', 'froid');
+}
+
+function badgeType(type) {
+  if (!type) return badge('autre', 'type');
+
+  const labels = {
+    appel_offre: 'appel d’offre',
+    investissement: 'investissement',
+    recrutement: 'recrutement',
+    nouvelle_ligne: 'nouvelle ligne',
+    qualite_rappel_conso: 'qualité / rappel conso',
+    autre: 'autre'
+  };
+
+  return badge(labels[type] || type, 'type');
+}
+
+function badgeStatut(statut) {
+  if (!statut) return '';
+  return badge(statut, 'statut');
+}
+
 function scoringLocal(titre, entreprise) {
   const texte = `${titre || ''} ${entreprise || ''}`.toLowerCase();
 
