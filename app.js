@@ -117,10 +117,7 @@ async function chargerSignaux() {
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
 
         <div style="margin-top:8px;">
-          <button onclick="analyserSignal('${s.id}', \`${escapeBackticks(s.titre || '')}\`, \`${escapeBackticks(s.entreprise_nom || '')}\`)">
-            🧠 Analyser
-          </button>
-
+         
           <button onclick="changerStatut('${s.id}', 'a_contacter')">
         📌 À contacter
           </button>
@@ -386,6 +383,37 @@ function scoringLocal(titre, entreprise) {
     score += 5;
   }
 
+  // =========================
+// 1C. RAPPEL CONSO / QUALITÉ
+// =========================
+
+if (
+  texte.includes("rappel conso") ||
+  texte.includes("retrait rappel") ||
+  texte.includes("corps étranger") ||
+  texte.includes("morceau de verre") ||
+  texte.includes("verre") ||
+  texte.includes("métal") ||
+  texte.includes("plastique dur") ||
+  texte.includes("détecteur de métaux") ||
+  texte.includes("rayon x") ||
+  texte.includes("contamination") ||
+  texte.includes("urgence")
+) {
+  score += 25;
+
+  type_signal = 'qualite_rappel_conso';
+
+  raison_score =
+    "Contexte qualité sensible détecté (rappel conso / contamination / corps étranger).";
+
+  angle_commercial =
+    "Approche conseil qualité et sécurisation de ligne.";
+
+  action_recommandee =
+    "Surveiller + identifier responsable qualité ou maintenance.";
+}
+  
   // =========================
   // 2. CAPACITÉ / PRODUCTION
   // =========================
