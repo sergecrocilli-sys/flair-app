@@ -402,7 +402,7 @@ if (
 ) {
   score += 25;
 
-  type_signal = 'autre';
+  type_signal = 'qualite_rappel_conso';
 
   raison_score =
     "Contexte qualité sensible détecté (rappel conso / contamination / corps étranger).";
