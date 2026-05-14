@@ -214,3 +214,41 @@ hr {
   }
 }
 
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: bold;
+  border: 1px solid var(--border);
+  background: var(--bg-card-soft);
+  color: var(--text-main);
+}
+
+.badge-chaud {
+  border-color: var(--orange);
+}
+
+.badge-tiede {
+  border-color: #facc15;
+}
+
+.badge-froid {
+  border-color: var(--blue);
+}
+
+.badge-type {
+  color: var(--text-muted);
+}
+
+.badge-statut {
+  color: var(--green);
+}
