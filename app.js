@@ -538,14 +538,12 @@ async function analyserNouveauxSignaux() {
   signal.type_source
 ].filter(Boolean).join(' ');
 
-console.log("Texte analysé :", texteComplet);
 
 const resultat = scoringLocal(
   texteComplet,
   ''
 );
 
-console.log("Résultat scoring :", resultat);
 
   const { error: updateError } = await supabaseClient
     .from('signaux')
