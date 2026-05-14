@@ -41,8 +41,13 @@
     <hr>
 
     <h3>📂 Tous les signaux actifs</h3>
-    <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
-    <div id="signaux"></div>
+
+<div style="display:flex; gap:8px; margin-bottom:10px;">
+  <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+  <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
+</div>
+
+<div id="signaux"></div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
