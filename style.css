@@ -181,12 +181,12 @@ hr {
 }
 
 .dashboard-card {
-  background: #ffffff;
-  border-radius: 14px;
+  background: rgba(17, 28, 46, 0.92);
+  border: 1px solid var(--border);
+  border-radius: 18px;
   padding: 16px;
-  box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+  box-shadow: 0 12px 30px rgba(0,0,0,0.25);
 }
-
 .dashboard-card h3 {
   margin-top: 0;
 }
