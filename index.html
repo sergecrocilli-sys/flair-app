@@ -20,36 +20,41 @@
 
   <!-- APP -->
   <div id="app" style="display:none;">
-    <button onclick="logout()">Se déconnecter</button>
+  <button onclick="logout()">Se déconnecter</button>
 
-    <h3>🔥 Top 3 du jour</h3>
-    <button onclick="chargerTop3()">Actualiser le Top 3</button>
-    <div id="top3"></div>
+  <div class="dashboard-grid">
 
-    <hr>
+    <section class="dashboard-card">
+      <h3>🔥 Top 3 du jour</h3>
+      <button onclick="chargerTop3()">Actualiser le Top 3</button>
+      <div id="top3"></div>
+    </section>
 
-    <h3>📌 À contacter</h3>
-    <div id="aContacter"></div>
+    <section class="dashboard-card">
+      <h3>📌 À contacter</h3>
+      <div id="aContacter"></div>
+    </section>
 
-    <hr>
+    <section class="dashboard-card">
+      <h3>➕ Ajouter un signal</h3>
+      <input id="titre" placeholder="Titre du signal" />
+      <input id="entreprise" placeholder="Entreprise" />
+      <button onclick="ajouterSignal()">Ajouter</button>
+    </section>
 
-    <h3>➕ Ajouter un signal</h3>
-    <input id="titre" placeholder="Titre du signal" />
-    <input id="entreprise" placeholder="Entreprise" />
-    <button onclick="ajouterSignal()">Ajouter</button>
-
-    <hr>
-
-    <h3>📂 Tous les signaux actifs</h3>
-
-<div style="display:flex; gap:8px; margin-bottom:10px;">
-  <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
-  <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
-</div>
-
-<div id="signaux"></div>
   </div>
 
+  <section class="dashboard-card signaux-large">
+    <h3>📂 Tous les signaux actifs</h3>
+
+    <div class="actions-row">
+      <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+      <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
+    </div>
+
+    <div id="signaux"></div>
+  </section>
+</div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="app.js"></script>
 
