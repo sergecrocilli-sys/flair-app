@@ -510,33 +510,51 @@ if (
   };
 }
 
-async function analyserSignal(id, titre, entreprise) {
-  const resultat = scoringLocal(titre, entreprise);
+async function analyserNouveauxSignaux() {
 
-  const { error } = await supabaseClient
+  const { data, error } = await supabaseClient
     .from('signaux')
-    .update({
-      score_pertinence: resultat.score_pertinence,
-      chaleur: resultat.chaleur,
-      type_signal: resultat.type_signal,
-      raison_score: resultat.raison_score,
-      angle_commercial: resultat.angle_commercial,
-      action_recommandee: resultat.action_recommandee,
-      traite_par_ia: false,
-      statut: 'analyse'
-    })
-    .eq('id', id);
+    .select('*')
+    .eq('statut', 'nouveau');
 
   if (error) {
-    alert("Erreur analyse : " + error.message);
+    alert("Erreur chargement signaux : " + error.message);
     return;
+  }
+
+  if (!data || data.length === 0) {
+    alert("Aucun nouveau signal à analyser.");
+    return;
+  }
+
+  for (const signal of data) {
+
+    const resultat = scoringLocal(
+      signal.titre,
+      signal.entreprise_nom
+    );
+
+    await supabaseClient
+      .from('signaux')
+      .update({
+        score_pertinence: resultat.score_pertinence,
+        chaleur: resultat.chaleur,
+        type_signal: resultat.type_signal,
+        raison_score: resultat.raison_score,
+        angle_commercial: resultat.angle_commercial,
+        action_recommandee: resultat.action_recommandee,
+        traite_par_ia: false,
+        statut: 'analyse'
+      })
+      .eq('id', signal.id);
   }
 
   await chargerSignaux();
   await chargerTop3();
   await chargerAContacter();
-  }
 
+  alert("Analyse terminée.");
+}
 // =========================
 // EXPOSER LES FONCTIONS AUX BOUTONS HTML
 // =========================
