@@ -508,23 +508,23 @@ if (
     angle_commercial,
     action_recommandee
   };
-}
+ }
 
 async function analyserNouveauxSignaux() {
 
-  const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'nouveau');
-
+ const { data, error } = await supabaseClient
+  .from('signaux')
+  .select('*')
+  .in('statut', ['nouveau', 'analyse']);
+  
   if (error) {
     alert("Erreur chargement signaux : " + error.message);
     return;
   }
 
   if (!data || data.length === 0) {
-    alert("Aucun nouveau signal à analyser.");
-    return;
+  alert("Aucun signal nouveau ou analysé à recalculer.");
+  return;
   }
 
   for (const signal of data) {
