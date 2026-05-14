@@ -171,9 +171,11 @@ async function chargerTop3() {
       <div class="signal-card">
         <b>#${index + 1} — ${s.titre}</b><br>
         ${s.entreprise_nom || ''}<br>
-        Score : ${s.score_pertinence || '-'}<br>
-        Chaleur : ${s.chaleur || '-'}<br>
-        Type : ${s.type_signal || '-'}<br>
+        <div class="badge-row">
+        ${badgeChaleur(s.chaleur)}
+        ${badgeType(s.type_signal)}
+      </div>
+      Score : ${s.score_pertinence || '-'}<br>
         ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
 
