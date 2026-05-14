@@ -84,7 +84,7 @@ async function chargerSignaux() {
   const { data, error } = await supabaseClient
     .from('signaux')
     .select('*')
-    .not('statut', 'in', '("traite","ignore","a_contacter")')
+    .eq('statut', 'nouveau');
     .order('created_at', { ascending: false })
     .limit(20);
 
