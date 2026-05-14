@@ -108,10 +108,12 @@ async function chargerSignaux() {
       <div class="signal-card">
         <b>${s.titre}</b><br>
         ${s.entreprise_nom || ''}<br>
-        Score : ${s.score_pertinence || '-'}<br>
-        Chaleur : ${s.chaleur || '-'}<br>
-        Type : ${s.type_signal || '-'}<br>
-        Statut : ${s.statut || '-'}<br>
+        <div class="badge-row">
+        ${badgeChaleur(s.chaleur)}
+        ${badgeType(s.type_signal)}
+        ${badgeStatut(s.statut)}
+      </div>
+      Score : ${s.score_pertinence || '-'}<br>
         ${s.raison_score ? `<small><b>Pourquoi :</b> ${s.raison_score}</small><br>` : ''}
         ${s.angle_commercial ? `<small><b>Angle :</b> ${s.angle_commercial}</small><br>` : ''}
         ${s.action_recommandee ? `<small><b>Action :</b> ${s.action_recommandee}</small><br>` : ''}
