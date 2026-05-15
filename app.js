@@ -72,7 +72,8 @@ async function initUser() {
   await chargerSignaux();
   await chargerTop3();
   await chargerAContacter();
-}
+  await chargerStats();
+  }
 
 // =========================
 // SIGNAUX
