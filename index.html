@@ -49,11 +49,36 @@
     <h3>📂 Tous les signaux actifs</h3>
 
     <div class="actions-row">
-      <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
-      <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
-    </div>
+  <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+  <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
+</div>
 
-    <div id="signaux"></div>
+<div class="filters-row">
+  <select id="filtreChaleur" onchange="chargerSignaux()">
+    <option value="">Toutes chaleurs</option>
+    <option value="chaud">🔥 Chaud</option>
+    <option value="tiede">🟠 Tiède</option>
+    <option value="froid">❄️ Froid</option>
+  </select>
+
+  <select id="filtreType" onchange="chargerSignaux()">
+    <option value="">Tous types</option>
+    <option value="appel_offre">Appel d’offre</option>
+    <option value="investissement">Investissement</option>
+    <option value="recrutement">Recrutement</option>
+    <option value="nouvelle_ligne">Nouvelle ligne</option>
+    <option value="qualite_rappel_conso">Qualité / rappel conso</option>
+    <option value="autre">Autre</option>
+  </select>
+
+  <select id="filtreStatut" onchange="chargerSignaux()">
+    <option value="">Tous statuts</option>
+    <option value="nouveau">Nouveau</option>
+    <option value="analyse">Analysé</option>
+  </select>
+</div>
+
+<div id="signaux"></div>
   </section>
 </div>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
