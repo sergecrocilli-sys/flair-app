@@ -309,7 +309,8 @@ async function ajouterSignal() {
   await chargerSignaux();
   await chargerTop3();
   await chargerAContacter();
-}
+  await chargerStats();
+ }
 
 async function changerStatut(signalId, nouveauStatut) {
   const { error } = await supabaseClient
@@ -327,6 +328,44 @@ async function changerStatut(signalId, nouveauStatut) {
   await chargerSignaux();
   await chargerTop3();
   await chargerAContacter();
+  await chargerStats();
+  }
+
+  async function chargerStats() {
+    try {
+      const { data, error } = await supabaseClient
+      .from('signaux')
+      .select('statut, chaleur');
+
+    if (error) throw error;
+
+    const signaux = data || [];
+
+    const actifs = signaux.filter(s =>
+      !['traite', 'ignore', 'a_contacter'].includes(s.statut)
+    ).length;
+
+    const chauds = signaux.filter(s =>
+      s.chaleur === 'chaud' &&
+      !['traite', 'ignore'].includes(s.statut)
+    ).length;
+
+    const aContacter = signaux.filter(s =>
+      s.statut === 'a_contacter'
+    ).length;
+
+    const nouveaux = signaux.filter(s =>
+      s.statut === 'nouveau'
+    ).length;
+
+    document.getElementById('statActifs').textContent = actifs;
+    document.getElementById('statChauds').textContent = chauds;
+    document.getElementById('statAContacter').textContent = aContacter;
+    document.getElementById('statNouveaux').textContent = nouveaux;
+
+  } catch (err) {
+    console.error('Erreur chargement statistiques :', err);
+  }
 }
 // =========================
 // SCORING LOCAL FLAIR
