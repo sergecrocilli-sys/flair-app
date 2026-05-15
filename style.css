@@ -532,9 +532,19 @@ hr {
 }
 
 .mini-sparkline {
-  height: 34px;
+  height: 38px;
+  display: flex;
+  align-items: flex-end;
+  gap: 5px;
+  padding: 4px 0;
+}
+
+.mini-sparkline span {
+  flex: 1;
+  min-width: 5px;
   border-radius: 999px;
-  background: linear-gradient(90deg, rgba(255,122,26,0.25), rgba(255,122,26,0.75), rgba(255,122,26,0.2));
+  background: linear-gradient(180deg, #ff9f43, var(--orange));
+  opacity: 0.9;
 }
 
 .mini-gauge {
