@@ -374,4 +374,7 @@ hr {
   .stats-row {
     grid-template-columns: repeat(2, 1fr);
   }
+  .scroll-zone-large {
+  max-height: 620px;
+  }
 }
