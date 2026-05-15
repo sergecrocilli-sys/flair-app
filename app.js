@@ -551,7 +551,7 @@ async function chargerDashboardManager() {
 
     const { data, error } = await supabaseClient
       .from('signaux')
-      .select('id, chaleur, statut, date_signal, created_at')
+      .select('id, chaleur, statut, date_signal, created_at, date_traitement')
       .gte('created_at', startWeek.toISOString())
       .lte('created_at', now.toISOString());
 
@@ -563,9 +563,18 @@ async function chargerDashboardManager() {
       s.chaleur === 'chaud'
     );
 
+        const leadsTraites = signaux.filter(s =>
+      s.statut === 'traite' || s.statut === 'historique' || s.date_traitement
+    );
+
     const mgrLeadsChauds = document.getElementById('mgrLeadsChauds');
     if (mgrLeadsChauds) {
       mgrLeadsChauds.textContent = leadsChauds.length;
+    }
+
+        const mgrLeadsTraites = document.getElementById('mgrLeadsTraites');
+    if (mgrLeadsTraites) {
+      mgrLeadsTraites.textContent = leadsTraites.length;
     }
 
     const dailyCounts = [0, 0, 0, 0, 0, 0, 0];
