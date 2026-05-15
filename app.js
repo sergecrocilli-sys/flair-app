@@ -665,6 +665,7 @@ const resultat = scoringLocal(
   await chargerSignaux();
   await chargerTop3();
   await chargerAContacter();
+  await chargerStats();
 
   alert("Analyse terminée.");
 }
