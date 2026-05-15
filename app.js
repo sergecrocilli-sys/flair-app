@@ -290,11 +290,11 @@ async function chargerHistorique() {
   if (!container) return;
 
   const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .in('statut', ['traite', 'ignore', 'historique'])
-    .order('created_at', { ascending: false })
-    .limit(10);
+  .from('signaux')
+  .select('*')
+  .eq('statut', 'historique')
+  .order('date_derniere_action', { ascending: false })
+  .limit(20);
 
   if (error) {
     console.error("Erreur chargement historique :", error);
