@@ -175,7 +175,7 @@ async function chargerSignaux() {
   let query = supabaseClient
     .from('signaux')
     .select('*')
-    .not('statut', 'in', '("traite","ignore","a_contacter","historique")')
+    .not('statut', 'in', '("a_contacter","historique")')
     .order('created_at', { ascending: false })
     .limit(20);
 
