@@ -85,7 +85,7 @@ async function initUser() {
 // =========================
 
 
-function afficherVue(vue) {
+async function afficherVue(vue) {
   const cockpitView = document.getElementById('cockpitView');
   const managerView = document.getElementById('managerView');
   const btnCockpit = document.getElementById('btnCockpit');
@@ -100,6 +100,10 @@ function afficherVue(vue) {
 
   btnCockpit?.classList.toggle('active', !isManager);
   btnManager?.classList.toggle('active', isManager);
+  
+    if (isManager) {
+    await chargerDashboardManager();
+  }
 }
 
 async function refreshCockpit() {
