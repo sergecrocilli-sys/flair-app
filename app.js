@@ -484,6 +484,18 @@ async function chargerStats() {
 
     const signaux = data || [];
 
+    const confirmes = signaux.filter(s =>
+      s.feedback_commercial === 'interet_confirme'
+    );
+
+    const nonConfirmes = signaux.filter(s =>
+      s.feedback_commercial === 'interet_non_confirme'
+    );
+
+    const requalifier = signaux.filter(s =>
+      s.feedback_commercial === 'a_requalifier'
+    );
+
     const actifs = signaux.filter(s =>
       !['ignore', 'a_contacter', 'historique'].includes(s.statut)
     ).length;
