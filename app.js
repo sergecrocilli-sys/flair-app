@@ -577,6 +577,15 @@ async function chargerDashboardManager() {
       mgrLeadsTraites.textContent = leadsTraites.length;
     }
 
+    const baseTraitement = Math.max(signaux.length, 1);
+    const tauxTraitement = Math.min(100, Math.round((leadsTraites.length / baseTraitement) * 100));
+
+    const mgrGaugeTraites = document.getElementById('mgrGaugeTraites');
+    if (mgrGaugeTraites) {
+      mgrGaugeTraites.style.width = `${tauxTraitement}%`;
+      mgrGaugeTraites.title = `${tauxTraitement}% des signaux de la semaine sont traités`;
+    }
+
     const dailyCounts = [0, 0, 0, 0, 0, 0, 0];
 
     leadsChauds.forEach(s => {
