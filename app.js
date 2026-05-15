@@ -551,7 +551,7 @@ async function chargerDashboardManager() {
 
     const { data, error } = await supabaseClient
       .from('signaux')
-      .select('id, chaleur, statut, date_signal, created_at, date_traitement')
+      .select('id, chaleur, statut, date_signal, created_at, date_traitement, feedback_commercial')
       .gte('created_at', startWeek.toISOString())
       .lte('created_at', now.toISOString());
 
