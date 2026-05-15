@@ -563,7 +563,7 @@ async function chargerDashboardManager() {
       s.chaleur === 'chaud'
     );
 
-        const leadsTraites = signaux.filter(s =>
+    const leadsTraites = signaux.filter(s =>
       s.statut === 'traite' || s.statut === 'historique' || s.date_traitement
     );
 
@@ -572,7 +572,7 @@ async function chargerDashboardManager() {
       mgrLeadsChauds.textContent = leadsChauds.length;
     }
 
-        const mgrLeadsTraites = document.getElementById('mgrLeadsTraites');
+    const mgrLeadsTraites = document.getElementById('mgrLeadsTraites');
     if (mgrLeadsTraites) {
       mgrLeadsTraites.textContent = leadsTraites.length;
     }
