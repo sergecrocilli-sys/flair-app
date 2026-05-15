@@ -289,8 +289,9 @@ hr {
   .filters-row select {
     width: 100%;
   }
+}
 
-  .stats-row {
+.stats-row {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 14px;
