@@ -517,6 +517,83 @@ async function chargerStats() {
 }
 
 // =========================
+// DASHBOARD PRO MANAGER
+// =========================
+
+function getStartOfWeek(date = new Date()) {
+  const d = new Date(date);
+  const day = d.getDay();
+  const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+  d.setDate(diff);
+  d.setHours(0, 0, 0, 0);
+  return d;
+}
+
+function getSignalDate(s) {
+  return s.date_signal || s.created_at || null;
+}
+
+function renderSparklineChauds(values) {
+  const max = Math.max(...values, 1);
+
+  return values.map(v => {
+    const height = Math.max(8, Math.round((v / max) * 34));
+    return `<span style="height:${height}px" title="${v} lead(s) chaud(s)"></span>`;
+  }).join('');
+}
+
+async function chargerDashboardManager() {
+  if (!user) return;
+
+  try {
+    const startWeek = getStartOfWeek();
+    const now = new Date();
+
+    const { data, error } = await supabaseClient
+      .from('signaux')
+      .select('id, chaleur, statut, date_signal, created_at')
+      .gte('created_at', startWeek.toISOString())
+      .lte('created_at', now.toISOString());
+
+    if (error) throw error;
+
+    const signaux = data || [];
+
+    const leadsChauds = signaux.filter(s =>
+      s.chaleur === 'chaud'
+    );
+
+    const mgrLeadsChauds = document.getElementById('mgrLeadsChauds');
+    if (mgrLeadsChauds) {
+      mgrLeadsChauds.textContent = leadsChauds.length;
+    }
+
+    const dailyCounts = [0, 0, 0, 0, 0, 0, 0];
+
+    leadsChauds.forEach(s => {
+      const rawDate = getSignalDate(s);
+      if (!rawDate) return;
+
+      const d = new Date(rawDate);
+      const day = d.getDay();
+      const index = day === 0 ? 6 : day - 1;
+
+      if (index >= 0 && index <= 6) {
+        dailyCounts[index]++;
+      }
+    });
+
+    const sparkline = document.getElementById('mgrSparklineChauds');
+    if (sparkline) {
+      sparkline.innerHTML = renderSparklineChauds(dailyCounts);
+    }
+
+  } catch (err) {
+    console.error('Erreur Dashboard Manager :', err);
+  }
+}
+
+// =========================
 // SCORING LOCAL FLAIR
 // =========================
 
