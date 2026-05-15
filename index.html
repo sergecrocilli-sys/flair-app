@@ -186,11 +186,33 @@
             <small>À calculer via date_a_contacter / date_traitement</small>
           </article>
 
-          <article class="manager-kpi-card">
-            <span>Feedbacks commerciaux</span>
-            <strong id="mgrFeedbacks">—</strong>
-            <div class="mini-donut"></div>
-          </article>
+          <article class="manager-kpi-card manager-quality-card">
+  <span>Qualité des leads</span>
+
+  <div class="manager-donut-wrap">
+    <div class="manager-donut">
+      <svg viewBox="0 0 42 42">
+        <circle class="donut-bg" cx="21" cy="21" r="15.915"></circle>
+
+        <circle id="donutConfirmes" class="donut-segment donut-green" cx="21" cy="21" r="15.915"></circle>
+        <circle id="donutRequalifier" class="donut-segment donut-orange" cx="21" cy="21" r="15.915"></circle>
+        <circle id="donutNonConfirmes" class="donut-segment donut-red" cx="21" cy="21" r="15.915"></circle>
+      </svg>
+
+      <div class="manager-donut-center">
+        <strong id="mgrTotalFeedback">0</strong>
+        <small>feedbacks</small>
+      </div>
+    </div>
+
+    <div class="manager-donut-legend">
+      <div><i class="legend-dot green"></i>Confirmés <strong id="mgrConfirmes">0</strong></div>
+      <div><i class="legend-dot orange"></i>Requalifier <strong id="mgrRequalifier">0</strong></div>
+      <div><i class="legend-dot red"></i>Non confirmés <strong id="mgrNonConfirmes">0</strong></div>
+      <div class="manager-confirmation-rate">Taux <strong id="mgrTauxConfirmation">0%</strong></div>
+    </div>
+  </div>
+</article>
         </div>
 
         <div class="manager-content-grid">
