@@ -355,11 +355,45 @@ async function ajouterSignal() {
 }
 
 async function changerStatut(signalId, nouveauStatut) {
+
+  const updateData = {
+    statut: nouveauStatut,
+    date_derniere_action: new Date().toISOString()
+  };
+
+  if (nouveauStatut === 'a_contacter') {
+    updateData.date_a_contacter = new Date().toISOString();
+
+    const { data: signalData } = await supabaseClient
+      .from('signaux')
+      .select('chaleur')
+      .eq('id', signalId)
+      .single();
+
+    if (signalData?.chaleur === 'chaud') {
+      const d = new Date();
+      d.setDate(d.getDate() + 7);
+      updateData.relance_due_at = d.toISOString();
+    }
+
+    if (signalData?.chaleur === 'tiede') {
+      const d = new Date();
+      d.setDate(d.getDate() + 15);
+      updateData.relance_due_at = d.toISOString();
+    }
+  }
+
+  if (nouveauStatut === 'traite') {
+    updateData.date_traitement = new Date().toISOString();
+  }
+
+  if (nouveauStatut === 'ignore') {
+    updateData.statut = 'historique';
+  }
+
   const { error } = await supabaseClient
     .from('signaux')
-    .update({
-      statut: nouveauStatut
-    })
+    .update(updateData)
     .eq('id', signalId);
 
   if (error) {
@@ -367,6 +401,12 @@ async function changerStatut(signalId, nouveauStatut) {
     return;
   }
 
+  await chargerSignaux();
+  await chargerTop3();
+  await chargerAContacter();
+  await chargerHistorique();
+  await chargerStats();
+}
   await refreshCockpit();
 }
 
