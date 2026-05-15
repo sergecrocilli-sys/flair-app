@@ -81,12 +81,30 @@ async function initUser() {
 async function chargerSignaux() {
   if (!user) return;
 
-  const { data, error } = await supabaseClient
+  const filtreChaleur = document.getElementById('filtreChaleur')?.value || '';
+const filtreType = document.getElementById('filtreType')?.value || '';
+const filtreStatut = document.getElementById('filtreStatut')?.value || '';
+
+let query = supabaseClient
   .from('signaux')
   .select('*')
   .not('statut', 'in', '("traite","ignore","a_contacter")')
   .order('created_at', { ascending: false })
   .limit(20);
+
+if (filtreChaleur) {
+  query = query.eq('chaleur', filtreChaleur);
+}
+
+if (filtreType) {
+  query = query.eq('type_signal', filtreType);
+}
+
+if (filtreStatut) {
+  query = query.eq('statut', filtreStatut);
+}
+
+const { data, error } = await query;
 
   if (error) {
     alert("Erreur chargement signaux : " + error.message);
