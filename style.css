@@ -550,8 +550,17 @@ hr {
 .mini-gauge {
   height: 10px;
   border-radius: 999px;
-  overflow: hidden;
   background: rgba(255,255,255,0.08);
+  overflow: hidden;
+}
+
+.mini-gauge span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #77d36a, var(--orange));
+  transition: width 0.3s ease;
 }
 
 .mini-gauge i {
