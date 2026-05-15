@@ -532,6 +532,18 @@ async function chargerDashboardManager() {
 
     const signaux = data || [];
 
+        const confirmes = signaux.filter(s =>
+      s.feedback_commercial === 'interet_confirme'
+    );
+
+    const nonConfirmes = signaux.filter(s =>
+      s.feedback_commercial === 'interet_non_confirme'
+    );
+
+    const requalifier = signaux.filter(s =>
+      s.feedback_commercial === 'a_requalifier'
+    );
+
     const leadsChauds = signaux.filter(s =>
       s.chaleur === 'chaud'
     );
@@ -578,6 +590,36 @@ async function chargerDashboardManager() {
     if (sparkline) {
       sparkline.innerHTML = renderSparklineChauds(dailyCounts);
     }
+
+      const totalFeedback = confirmes.length + nonConfirmes.length + requalifier.length;
+
+    const tauxConfirmation = totalFeedback > 0
+      ? Math.round((confirmes.length / totalFeedback) * 100)
+      : 0;
+
+    document.getElementById('mgrConfirmes').textContent = confirmes.length;
+    document.getElementById('mgrNonConfirmes').textContent = nonConfirmes.length;
+    document.getElementById('mgrRequalifier').textContent = requalifier.length;
+    document.getElementById('mgrTotalFeedback').textContent = totalFeedback;
+    document.getElementById('mgrTauxConfirmation').textContent = `${tauxConfirmation}%`;
+
+    const pctConfirmes = totalFeedback ? (confirmes.length / totalFeedback) * 100 : 0;
+    const pctRequalifier = totalFeedback ? (requalifier.length / totalFeedback) * 100 : 0;
+    const pctNonConfirmes = totalFeedback ? (nonConfirmes.length / totalFeedback) * 100 : 0;
+
+    const donutConfirmes = document.getElementById('donutConfirmes');
+    const donutRequalifier = document.getElementById('donutRequalifier');
+    const donutNonConfirmes = document.getElementById('donutNonConfirmes');
+
+    if (donutConfirmes && donutRequalifier && donutNonConfirmes) {
+      donutConfirmes.setAttribute('stroke-dasharray', `${pctConfirmes} 100`);
+
+      donutRequalifier.setAttribute('stroke-dasharray', `${pctRequalifier} 100`);
+      donutRequalifier.setAttribute('stroke-dashoffset', `-${pctConfirmes}`);
+
+      donutNonConfirmes.setAttribute('stroke-dasharray', `${pctNonConfirmes} 100`);
+      donutNonConfirmes.setAttribute('stroke-dashoffset', `-${pctConfirmes + pctRequalifier}`);
+    }  
 
   } catch (err) {
     console.error('Erreur Dashboard Manager :', err);
