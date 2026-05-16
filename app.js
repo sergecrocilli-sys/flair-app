@@ -1188,7 +1188,13 @@ function scoringLocal(titre, entreprise) {
   // 11. NORMALISATION
   // =========================
 
-  score = Math.min(score, 100);
+  if (type_signal === 'appel_offre') {
+  score = Math.min(score, 95);
+} else if (type_signal === 'qualite_rappel_conso') {
+  score = Math.min(score, 95);
+} else {
+  score = Math.min(score, 92);
+}
 
   let chaleur = 'froid';
   if (score >= 80) chaleur = 'chaud';
