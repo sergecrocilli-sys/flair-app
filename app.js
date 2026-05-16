@@ -93,7 +93,7 @@ async function initUser() {
   afficherApplication();
 }
 
-  function afficherOnboardingMetier(profil = {}) {
+function afficherOnboardingMetier(profil = {}) {
   document.body.classList.add('onboarding-mode');
   document.body.classList.remove('cockpit-mode', 'manager-mode');
 
@@ -162,7 +162,7 @@ function chargerProfilMetier(profilMetier) {
   // chimie_logistique  -> scoring/chimie_logistique.js
 }
 
-  // =========================
+ // =========================
 // HELPERS AFFICHAGE
 // =========================
 
