@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FLAIR</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <h1>🔥 FLAIR</h1>
+  <h2>Détecteur de Signaux Commerciaux</h2>
+
+  <!-- AUTH -->
+  <div id="auth">
+    <input id="email" placeholder="Email" />
+    <input id="password" type="password" placeholder="Mot de passe" />
+    <button onclick="signUp()">Créer mon compte</button>
+    <button onclick="signIn()">Se connecter</button>
+  </div>
+
+  <!-- APP -->
+  <div id="app" style="display:none;">
+    <div class="app-topbar">
+      <div class="view-switcher">
+        <button class="nav-btn active" id="btnCockpit" onclick="afficherVue('cockpit')">Cockpit commercial</button>
+        <button class="nav-btn" id="btnManager" onclick="afficherVue('manager')">Dashboard Manager</button>
+      </div>
+      <button class="logout-btn" onclick="logout()">Se déconnecter</button>
+    </div>
+
+    <div id="cockpitView" class="cockpit-shell">
+      <aside class="manager-sidebar manager-sidebar-pro cockpit-sidebar">
+        <div class="manager-brand manager-brand-pro">
+          <span class="manager-logo">F</span>
+          <div>
+            <strong>FLAIR</strong>
+            <small>Détecteur de signaux commerciaux</small>
+          </div>
+        </div>
+
+        <div class="manager-menu-group">
+          <span>Cockpit</span>
+          <button class="manager-menu-btn active" onclick="afficherVue('cockpit')">⌂ Cockpit commercial</button>
+        </div>
+
+        <div class="manager-menu-group">
+          <span>Manager PRO</span>
+          <button class="manager-menu-btn" onclick="afficherVue('manager')">▣ Dashboard PRO</button>
+        </div>
+
+        <div class="manager-side-block manager-side-compact">
+          <span>Doctrine</span>
+          <small>FLAIR détecte, score, priorise et déclenche l’action. Le CRM gère ensuite la relation commerciale.</small>
+        </div>
+
+        <div class="manager-side-block manager-side-compact">
+          <span>Priorité terrain</span>
+          <small>Top 3, signaux à contacter et ajout rapide d’un nouveau signal.</small>
+        </div>
+
+        <div class="manager-sidebar-footer">
+          <button class="manager-menu-btn logout-sidebar" onclick="logout()">Se déconnecter</button>
+        </div>
+      </aside>
+
+      <main class="cockpit-main">
+        <div class="cockpit-main-header">
+          <div>
+            <p class="manager-kicker">Cockpit commercial</p>
+            <h3>Vision terrain</h3>
+          </div>
+        </div>
+
+        <div class="doctrine-box cockpit-doctrine-mobile">
+          <strong>Doctrine FLAIR</strong>
+          <span>FLAIR détecte, score, priorise et déclenche l’action. Le CRM gère ensuite la relation commerciale.</span>
+        </div>
+
+        <div class="stats-row">
+          <div class="stat-card">
+            <span>Signaux actifs</span>
+            <strong id="statActifs">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Signaux chauds</span>
+            <strong id="statChauds">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>À contacter</span>
+            <strong id="statAContacter">0</strong>
+          </div>
+
+          <div class="stat-card">
+            <span>Nouveaux</span>
+            <strong id="statNouveaux">0</strong>
+          </div>
+        </div>
+
+        <section class="dashboard-card cockpit-add-card">
+          <h3>➕ Ajouter un signal</h3>
+          <div class="cockpit-add-inline">
+            <input id="titre" placeholder="Titre du signal" />
+            <input id="entreprise" placeholder="Entreprise" />
+            <button onclick="ajouterSignal()">Ajouter</button>
+          </div>
+        </section>
+
+        <div class="dashboard-grid cockpit-dashboard-grid">
+
+          <section class="dashboard-card">
+            <h3>🔥 Top 3 du jour</h3>
+            <button onclick="chargerTop3()">Actualiser le Top 3</button>
+            <div class="scroll-zone">
+              <div id="top3"></div>
+            </div>
+          </section>
+
+          <section class="dashboard-card">
+            <h3>📌 À contacter</h3>
+            <div class="scroll-zone">
+              <div id="aContacter"></div>
+            </div>
+          </section>
+
+        </div>
+
+        <section class="dashboard-card signaux-large">
+          <h3>📂 Tous les signaux actifs</h3>
+
+          <div class="actions-row">
+            <button onclick="chargerSignaux()">🔄 Rafraîchir</button>
+            <button onclick="analyserNouveauxSignaux()">🧠 Analyser</button>
+          </div>
+
+          <div class="filters-row">
+            <select id="filtreChaleur" onchange="chargerSignaux()">
+              <option value="">Toutes chaleurs</option>
+              <option value="chaud">🔥 Chaud</option>
+              <option value="tiede">🟠 Tiède</option>
+              <option value="froid">❄️ Froid</option>
+            </select>
+
+            <select id="filtreType" onchange="chargerSignaux()">
+              <option value="">Tous types</option>
+              <option value="appel_offre">Appel d’offre</option>
+              <option value="investissement">Investissement</option>
+              <option value="recrutement">Recrutement</option>
+              <option value="nouvelle_ligne">Nouvelle ligne</option>
+              <option value="qualite_rappel_conso">Qualité / rappel conso</option>
+              <option value="autre">Autre</option>
+            </select>
+
+            <select id="filtreStatut" onchange="chargerSignaux()">
+              <option value="">Tous statuts</option>
+              <option value="nouveau">Nouveau</option>
+              <option value="analyse">Analysé</option>
+            </select>
+          </div>
+
+          <div class="scroll-zone scroll-zone-large">
+            <div id="signaux"></div>
+          </div>
+        </section>
+
+        <section class="dashboard-card historique-box">
+          <h3>🗂️ Historique récent</h3>
+          <p class="helper-text">Signaux traités, ignorés ou historisés. Le suivi commercial détaillé reste dans le CRM.</p>
+          <div class="scroll-zone scroll-zone-large">
+            <div id="historique"></div>
+          </div>
+        </section>
+      </main>
+    </div>
+
+    <!-- DASHBOARD PRO MANAGER -->
+    <section id="managerView" class="manager-view" style="display:none;">
+      <aside class="manager-sidebar manager-sidebar-pro">
+        <div class="manager-brand manager-brand-pro">
+          <span class="manager-logo">F</span>
+          <div>
+            <strong>FLAIR</strong>
+            <small>Détecteur de signaux commerciaux</small>
+          </div>
+        </div>
+
+        <div class="manager-menu-group">
+          <span>Cockpit</span>
+          <button class="manager-menu-btn" onclick="afficherVue('cockpit')">⌂ Cockpit commercial</button>
+        </div>
+
+        <div class="manager-menu-group">
+          <span>Manager PRO</span>
+          <button class="manager-menu-btn active" onclick="afficherVue('manager')">▣ Dashboard PRO</button>
+          <button class="manager-menu-btn" type="button">☷ Équipe & activité</button>
+          <button class="manager-menu-btn" type="button">⏱ Relances</button>
+          <button class="manager-menu-btn" type="button">◉ Feedback & qualité</button>
+          <button class="manager-menu-btn" type="button">◌ Sources & veille</button>
+        </div>
+
+        <div class="manager-side-block manager-side-compact">
+          <span>Périmètre</span>
+          <strong>Équipe commerciale</strong>
+          <small>Semaine en cours</small>
+        </div>
+
+        <div class="manager-side-block manager-side-compact">
+          <span>Doctrine</span>
+          <small>FLAIR détecte l’opportunité. Le CRM gère la relation.</small>
+        </div>
+
+        <div class="manager-sidebar-footer">
+          <button class="manager-menu-btn logout-sidebar" onclick="logout()">Se déconnecter</button>
+        </div>
+      </aside>
+
+      <main class="manager-main manager-main-pro">
+        <div class="manager-header manager-header-compact">
+          <div>
+            <p class="manager-kicker">Dashboard PRO</p>
+            <h3>Vision manager</h3>
+          </div>
+          <div class="manager-period">Semaine en cours</div>
+        </div>
+
+        <div class="manager-kpi-grid manager-kpi-grid-pro">
+          <article class="manager-kpi-card manager-kpi-compact">
+            <span>Signaux actifs</span>
+            <strong id="mgrSignauxActifs">—</strong>
+            <small id="mgrSignauxActifsInfo">Flux exploitable</small>
+            <div id="mgrSparklineActifs" class="mini-sparkline mini-blue"></div>
+          </article>
+
+          <article class="manager-kpi-card manager-kpi-compact">
+            <span>Nouveaux signaux</span>
+            <strong id="mgrNouveauxSignaux">—</strong>
+            <small id="mgrNouveauxInfo">À analyser</small>
+            <div id="mgrSparklineNouveaux" class="mini-sparkline mini-green"></div>
+          </article>
+
+          <article class="manager-kpi-card manager-kpi-compact">
+            <span>Leads chauds</span>
+            <strong id="mgrLeadsChauds">—</strong>
+            <small id="mgrLeadsChaudsInfo">Priorité terrain</small>
+            <div id="mgrSparklineChauds" class="mini-sparkline"></div>
+          </article>
+
+          <article class="manager-kpi-card manager-kpi-compact">
+            <span>À contacter</span>
+            <strong id="mgrAContacter">—</strong>
+            <small id="mgrAContacterInfo">Action attendue</small>
+            <div id="mgrSparklineAContacter" class="mini-sparkline mini-purple"></div>
+          </article>
+
+          <article class="manager-kpi-card manager-kpi-compact manager-kpi-alert">
+            <span>Relances en retard</span>
+            <strong id="mgrRelancesRetardKpi">—</strong>
+            <small id="mgrRelancesRetardInfo">À reprendre</small>
+            <div id="mgrSparklineRelances" class="mini-sparkline mini-red"></div>
+          </article>
+        </div>
+
+        <div class="manager-pro-grid">
+          <section class="manager-panel manager-quality-panel">
+            <div class="manager-panel-head">
+              <h4>Qualité des leads</h4>
+              <span id="mgrQualityBadge" class="manager-mini-badge">0 feedback</span>
+            </div>
+
+            <div class="manager-quality-layout">
+              <div class="manager-donut manager-donut-large">
+                <svg viewBox="0 0 42 42">
+                  <circle class="donut-bg" cx="21" cy="21" r="15.915"></circle>
+                  <circle id="donutConfirmes" class="donut-segment donut-green" cx="21" cy="21" r="15.915"></circle>
+                  <circle id="donutRequalifier" class="donut-segment donut-orange" cx="21" cy="21" r="15.915"></circle>
+                  <circle id="donutNonConfirmes" class="donut-segment donut-red" cx="21" cy="21" r="15.915"></circle>
+                </svg>
+                <div class="manager-donut-center">
+                  <strong id="mgrTotalFeedback">0</strong>
+                  <small>feedbacks</small>
+                </div>
+              </div>
+
+              <div class="manager-donut-legend manager-donut-legend-pro">
+                <div><i class="legend-dot green"></i>Confirmés <strong id="mgrConfirmes">0</strong></div>
+                <div><i class="legend-dot orange"></i>Requalifier <strong id="mgrRequalifier">0</strong></div>
+                <div><i class="legend-dot red"></i>Non confirmés <strong id="mgrNonConfirmes">0</strong></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="manager-panel manager-confirmation-panel">
+            <h4>Taux de confirmation</h4>
+            <strong id="mgrTauxConfirmation" class="manager-big-rate">0%</strong>
+            <small>Part des feedbacks confirmés sur l’ensemble des feedbacks commerciaux.</small>
+            <div class="manager-rate-bar"><i id="mgrTauxConfirmationBar"></i></div>
+            <p id="mgrTauxConfirmationDetail" class="manager-panel-note">0 confirmé / 0 feedback</p>
+          </section>
+
+          <section class="manager-panel manager-activity-panel">
+            <div class="manager-panel-head">
+              <h4>Activité équipe & top commerciaux</h4>
+              <span class="manager-mini-badge">Cette période</span>
+            </div>
+            <div id="mgrActiviteCommerciaux" class="manager-activity-list"></div>
+          </section>
+
+          <section class="manager-panel manager-relances-panel">
+            <div class="manager-panel-head">
+              <h4>Relances en retard</h4>
+              <span id="mgrRelancesBadge" class="manager-mini-badge alert">0</span>
+            </div>
+            <div id="mgrRelances" class="manager-list-compact"></div>
+          </section>
+
+          <section class="manager-panel manager-sources-panel">
+            <div class="manager-panel-head">
+              <h4>Sources les plus performantes</h4>
+              <span class="manager-mini-badge">Top 5</span>
+            </div>
+            <div id="mgrSources" class="manager-source-list"></div>
+          </section>
+        </div>
+      </main>
+    </section>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="app.js"></script>
+
+</body>
+</html>
