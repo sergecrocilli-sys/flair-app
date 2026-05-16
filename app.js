@@ -1201,12 +1201,20 @@ function scoringLocal(titre, entreprise) {
   if (type_signal === 'qualite_rappel_conso') {
     angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
     action_recommandee = "Identifier responsable qualité ou maintenance et proposer un échange rapide.";
-  } else if (score >= 80) {
-    angle_commercial = angle_commercial || "Projet en cours : positionnement rapide sur équipements.";
-    action_recommandee = action_recommandee || "Identifier décideur production / maintenance et prendre contact rapidement.";
+    } else if (score >= 80) {
+    if (angle_commercial === "Approche découverte.") {
+      angle_commercial = "Projet en cours : positionnement rapide sur équipements.";
+    }
+    if (action_recommandee === "Surveiller.") {
+      action_recommandee = "Identifier décideur production / maintenance et prendre contact rapidement.";
+    }
   } else if (score >= 60) {
-    angle_commercial = angle_commercial || "Opportunité probable à moyen terme.";
-    action_recommandee = action_recommandee || "Surveiller + identifier contact.";
+    if (angle_commercial === "Approche découverte.") {
+      angle_commercial = "Opportunité probable à moyen terme.";
+    }
+    if (action_recommandee === "Surveiller.") {
+      action_recommandee = "Surveiller + identifier contact.";
+    }
   }
 
   // =========================
