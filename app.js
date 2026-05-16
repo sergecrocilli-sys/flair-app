@@ -53,7 +53,8 @@ async function logout() {
 
 async function initUser() {
   document.getElementById('auth').style.display = "none";
-  document.getElementById('app').style.display = "block";
+  document.getElementById('app').style.display = "none";
+  document.getElementById('onboardingMetier').style.display = "none";
 
   const { data, error } = await supabaseClient
     .from('commerciaux')
@@ -66,16 +67,100 @@ async function initUser() {
     return;
   }
 
-  if (!data) {
-    const { error: insertError } = await supabaseClient
+  let profil = data;
+
+  if (!profil) {
+    const { data: insertedProfil, error: insertError } = await supabaseClient
       .from('commerciaux')
-      .insert([{ id: user.id, email: user.email }]);
+      .insert([{ id: user.id, email: user.email, onboarding_done: false }])
+      .select('*')
+      .single();
 
     if (insertError) {
       alert("Erreur création profil commercial : " + insertError.message);
       return;
     }
+
+    profil = insertedProfil;
   }
+
+  if (!profil.onboarding_done) {
+    afficherOnboardingMetier(profil);
+    return;
+  }
+
+  chargerProfilMetier(profil.profil_metier || 'agro_pesage');
+  afficherApplication();
+}
+
+  function afficherOnboardingMetier(profil = {}) {
+  document.body.classList.add('onboarding-mode');
+  document.body.classList.remove('cockpit-mode', 'manager-mode');
+
+  document.getElementById('auth').style.display = "none";
+  document.getElementById('app').style.display = "none";
+  document.getElementById('onboardingMetier').style.display = "flex";
+
+  document.getElementById('onboardingSociete').value = profil.societe || '';
+  document.getElementById('onboardingProfilMetier').value = profil.profil_metier || 'agro_pesage';
+  document.getElementById('onboardingFonction').value = profil.fonction || 'commercial_industrie';
+  document.getElementById('onboardingRegion').value = profil.region || 'grand_est';
+}
+
+function afficherApplication() {
+  document.body.classList.remove('onboarding-mode', 'manager-mode');
+  document.body.classList.add('cockpit-mode');
+
+  document.getElementById('onboardingMetier').style.display = "none";
+  document.getElementById('auth').style.display = "none";
+  document.getElementById('app').style.display = "block";
+
+  refreshCockpit();
+}
+
+async function sauvegarderOnboardingMetier() {
+  const societe = document.getElementById('onboardingSociete').value.trim();
+  const profil_metier = document.getElementById('onboardingProfilMetier').value;
+  const fonction = document.getElementById('onboardingFonction').value;
+  const region = document.getElementById('onboardingRegion').value;
+
+  if (!societe) {
+    alert("Merci d’indiquer votre société.");
+    return;
+  }
+
+  const { error } = await supabaseClient
+    .from('commerciaux')
+    .update({
+      societe,
+      profil_metier,
+      fonction,
+      region,
+      onboarding_done: true
+    })
+    .eq('id', user.id);
+
+  if (error) {
+    alert("Erreur sauvegarde profil métier : " + error.message);
+    return;
+  }
+
+  chargerProfilMetier(profil_metier);
+  afficherApplication();
+}
+
+function chargerProfilMetier(profilMetier) {
+  window.FLairProfilMetier = profilMetier;
+
+  console.log("Profil métier FLAIR chargé :", profilMetier);
+
+  // Préparation future :
+  // agro_pesage        -> scoring/agro_pesage.js
+  // agro_detection     -> scoring/agro_detection.js
+  // agro_vision        -> scoring/agro_vision.js
+  // agro_packaging     -> scoring/agro_packaging.js
+  // chimie_logistique  -> scoring/chimie_logistique.js
+}
 
   document.body.classList.add('cockpit-mode');
   document.body.classList.remove('manager-mode');
