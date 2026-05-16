@@ -860,62 +860,195 @@ function scoringLocal(titre, entreprise) {
   let angle_commercial = "Approche découverte.";
   let action_recommandee = "Surveiller.";
 
-    // =========================
-  // 0. APPEL D'OFFRE / MARCHÉ PUBLIC
+  const hasAny = (mots) => mots.some(mot => texte.includes(mot));
+
+  // =========================
+  // 0. LISTES DE MOTS-CLÉS MÉTIER
   // =========================
 
-  if (
-    texte.includes("appel d'offre") ||
-    texte.includes("appel d’offres") ||
-    texte.includes("appel offre") ||
-    texte.includes("marché public") ||
-    texte.includes("boamp")
-  ) {
-    score += 20;
+  const intentionAchat = [
+    "consultation",
+    "appel d'offre",
+    "appel d’offres",
+    "appel offre",
+    "marché public",
+    "marche public",
+    "boamp",
+    "cahier des charges",
+    "recherche fournisseur",
+    "demande de prix",
+    "demande de devis",
+    "consultation fournisseurs",
+    "benchmark équipement",
+    "benchmark equipement",
+    "mise en conformité",
+    "mise en conformite",
+    "remplacement",
+    "renouvellement équipement",
+    "renouvellement equipement"
+  ];
+
+  const projetInvestissement = [
+    "investissement",
+    "millions",
+    "projet",
+    "construction",
+    "nouveau",
+    "nouvelle usine",
+    "nouveau projet",
+    "usine",
+    "ultramoderne",
+    "modernisation",
+    "extension",
+    "agrandissement",
+    "nouveau site",
+    "augmentation capacité",
+    "augmentation capacite",
+    "augmentation production",
+    "montée en cadence",
+    "montee en cadence",
+    "atelier",
+    "site de production",
+    "investissement industriel",
+    "modernisation usine"
+  ];
+
+  const recrutementIndustriel = [
+    "recrutement",
+    "embauche",
+    "directeur de production",
+    "directeur production",
+    "responsable production",
+    "responsable maintenance",
+    "responsable qualité",
+    "responsable qualite",
+    "technicien maintenance",
+    "ingénieur process",
+    "ingenieur process",
+    "travaux neufs",
+    "responsable industrialisation",
+    "responsable amélioration continue",
+    "responsable amelioration continue"
+  ];
+
+  const qualiteCorpsEtrangers = [
+    "rappel produit",
+    "rappel conso",
+    "retrait rappel",
+    "corps étranger",
+    "corps etranger",
+    "morceau de verre",
+    "verre",
+    "métal",
+    "metal",
+    "plastique dur",
+    "détecteur de métaux",
+    "detecteur de metaux",
+    "rayon x",
+    "xray",
+    "contamination",
+    "urgence",
+    "non conformité",
+    "non conformite",
+    "incident qualité",
+    "incident qualite",
+    "sécurité alimentaire",
+    "securite alimentaire",
+    "audit ifs",
+    "audit brc"
+  ];
+
+  const pesageControle = [
+    "pesage",
+    "contrôle poids",
+    "controle poids",
+    "contrôle pondéral",
+    "controle ponderal",
+    "trieuse pondérale",
+    "trieuse ponderale",
+    "checkweigher",
+    "peseuse",
+    "pesage dynamique",
+    "balance industrielle",
+    "poids prix",
+    "étiquetage",
+    "etiquetage",
+    "traçabilité",
+    "tracabilite"
+  ];
+
+  const ligneConditionnement = [
+    "ligne",
+    "nouvelles lignes",
+    "nouvelle ligne",
+    "ligne automatisée",
+    "ligne automatisee",
+    "ligne de conditionnement",
+    "fabrication",
+    "conditionnement",
+    "emballage",
+    "découpe",
+    "decoupe",
+    "ensachage",
+    "tranchage",
+    "thermoformage",
+    "mise en barquette",
+    "fin de ligne",
+    "palettisation"
+  ];
+
+  const secteurAgro = [
+    "abattoir",
+    "viande",
+    "volaille",
+    "salaison",
+    "charcuterie",
+    "fromage",
+    "laiterie",
+    "fruits",
+    "légumes",
+    "legumes",
+    "traiteur",
+    "plats cuisinés",
+    "plats cuisines",
+    "conserverie",
+    "boulangerie",
+    "pâtisserie",
+    "patisserie"
+  ];
+
+  // =========================
+  // 1. INTENTION D'ACHAT / APPEL D'OFFRE
+  // =========================
+
+  if (hasAny(intentionAchat)) {
+    score += 25;
     type_signal = 'appel_offre';
-    raison_score = "Signal fort : appel d'offre ou marché public pouvant indiquer un besoin d'équipement identifié.";
+    raison_score = "Intention d'achat détectée : consultation, appel d'offre, demande de prix ou recherche fournisseur.";
+    angle_commercial = "Approche rapide avec proposition de solution adaptée.";
+    action_recommandee = "Identifier le décideur et prendre contact rapidement.";
   }
 
   // =========================
-  // 1. MOTS CLÉS FORTS (investissement / projet)
+  // 2. MOTS CLÉS FORTS — INVESTISSEMENT / PROJET
   // =========================
 
- if (
-  texte.includes("investissement") ||
-  texte.includes("millions") ||
-  texte.includes("projet") ||
-  texte.includes("construction") ||
-  texte.includes("nouveau") ||
-  texte.includes("nouvelle usine") ||
-  texte.includes("nouveau projet") || 
-  texte.includes("usine") ||
-  texte.includes("ultramoderne") ||
-  texte.includes("modernisation") ||
-  texte.includes("extension")
-) {
-  score += 25;
-  type_signal = 'investissement';
-  raison_score = "Projet industriel détecté (investissement / construction / modernisation / nouvelle usine).";
-}
-
-    // =========================
-  // 1B. RECRUTEMENT INDUSTRIEL
-  // =========================
-
-    if (
-    texte.includes("recrutement") ||
-    texte.includes("embauche") ||
-    texte.includes("directeur de production") ||
-    texte.includes("responsable production") ||
-    texte.includes("responsable maintenance") ||
-    texte.includes("responsable qualité")
-  ) {
-    score += 15;
-    type_signal = 'recrutement';
-    raison_score = "Signal de recrutement industriel : peut révéler une évolution d’organisation, une montée en charge ou un projet de ligne.";
+  if (hasAny(projetInvestissement)) {
+    score += 25;
+    type_signal = type_signal === 'autre' ? 'investissement' : type_signal;
+    raison_score += " Projet industriel détecté : investissement, construction, modernisation, extension ou nouvelle usine.";
   }
 
-  // Bonus poste stratégique
+  // =========================
+  // 3. RECRUTEMENT INDUSTRIEL
+  // =========================
+
+  if (hasAny(recrutementIndustriel)) {
+    score += 18;
+    type_signal = type_signal === 'autre' ? 'recrutement' : type_signal;
+    raison_score += " Recrutement industriel pouvant révéler une évolution d'organisation, une montée en charge ou un projet de ligne.";
+  }
+
   if (
     texte.includes("directeur") ||
     texte.includes("responsable")
@@ -924,102 +1057,135 @@ function scoringLocal(titre, entreprise) {
   }
 
   // =========================
-// 1C. RAPPEL CONSO / QUALITÉ
-// =========================
-
-if (
-  texte.includes("rappel conso") ||
-  texte.includes("retrait rappel") ||
-  texte.includes("corps étranger") ||
-  texte.includes("morceau de verre") ||
-  texte.includes("verre") ||
-  texte.includes("métal") ||
-  texte.includes("plastique dur") ||
-  texte.includes("détecteur de métaux") ||
-  texte.includes("rayon x") ||
-  texte.includes("contamination") ||
-  texte.includes("urgence")
-) {
-  score += 25;
-
-  type_signal = 'qualite_rappel_conso';
-
-  raison_score =
-    "Contexte qualité sensible détecté (rappel conso / contamination / corps étranger).";
-
-  angle_commercial =
-    "Approche conseil qualité et sécurisation de ligne.";
-
-  action_recommandee =
-    "Surveiller + identifier responsable qualité ou maintenance.";
-}
-  
+  // 4. RAPPEL CONSO / QUALITÉ / CORPS ÉTRANGERS
   // =========================
-  // 2. CAPACITÉ / PRODUCTION
+
+  if (hasAny(qualiteCorpsEtrangers)) {
+    score += 35;
+    type_signal = 'qualite_rappel_conso';
+    raison_score = "Contexte qualité sensible détecté : rappel conso, contamination, corps étranger ou sécurité alimentaire.";
+    angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
+    action_recommandee = "Identifier responsable qualité ou maintenance et proposer un échange rapide.";
+  }
+
+  // =========================
+  // 5. PESAGE / CONTRÔLE POIDS / ÉTIQUETAGE
+  // =========================
+
+  if (hasAny(pesageControle)) {
+    score += 25;
+    type_signal = type_signal === 'autre' ? 'investissement' : type_signal;
+    raison_score += " Besoin potentiel autour du pesage, contrôle poids, étiquetage ou traçabilité.";
+    angle_commercial = "Positionnement pesage, contrôle poids, étiquetage et automatisation.";
+    action_recommandee = "Préparer un angle pesage / contrôle poids / ligne.";
+  }
+
+  // =========================
+  // 6. CAPACITÉ / PRODUCTION
   // =========================
 
   if (
     texte.includes("capacité") ||
+    texte.includes("capacite") ||
     texte.includes("production") ||
     texte.includes("augmentation") ||
     texte.includes("cadence")
   ) {
     score += 15;
-    raison_score += " Impact sur la capacité de production.";
+    raison_score += " Impact potentiel sur la capacité de production.";
   }
 
   // =========================
-  // 3. LIGNE / CONDITIONNEMENT (très fort)
+  // 7. LIGNE / CONDITIONNEMENT
   // =========================
 
+  if (hasAny(ligneConditionnement)) {
+    score += 20;
+    type_signal = 'nouvelle_ligne';
+    raison_score += " Présence de ligne, fabrication, conditionnement ou fin de ligne.";
+    angle_commercial = "Projet ligne ou conditionnement : opportunité équipement.";
+    action_recommandee = "Identifier production / maintenance / travaux neufs.";
+  }
+
+  // =========================
+  // 8. SECTEUR AGROALIMENTAIRE
+  // =========================
+
+  if (hasAny(secteurAgro)) {
+    score += 5;
+    raison_score += " Secteur agroalimentaire identifié.";
+  }
+
+  // =========================
+  // 9. BONUS COMBINÉS — SIGNAUX PLUS FIABLES
+  // =========================
+
+  if (hasAny(["consultation", "demande de prix", "demande de devis", "appel d'offre", "appel d’offres"]) && hasAny(pesageControle)) {
+    score += 25;
+    type_signal = 'appel_offre';
+    raison_score += " Combinaison forte : intention d'achat + pesage / contrôle poids.";
+    angle_commercial = "Opportunité directe : répondre rapidement avec une approche solution.";
+    action_recommandee = "Contacter rapidement avec un message ciblé pesage / contrôle poids.";
+  }
+
   if (
-    texte.includes("ligne") ||
-    texte.includes("nouvelles lignes") ||
-    texte.includes("fabrication") ||
-    texte.includes("conditionnement") ||
-    texte.includes("emballage") ||
-    texte.includes("découpe")
+    hasAny(["rappel produit", "rappel conso", "contamination", "corps étranger", "corps etranger"]) &&
+    hasAny(["métal", "metal", "verre", "plastique dur", "rayon x", "détecteur de métaux", "detecteur de metaux"])
+  ) {
+    score += 25;
+    type_signal = 'qualite_rappel_conso';
+    raison_score += " Combinaison critique : rappel ou contamination + corps étranger.";
+    angle_commercial = "Approche conseil qualité, audit de ligne et sécurisation détection.";
+    action_recommandee = "Priorité haute : contacter le responsable qualité.";
+  }
+
+  if (
+    hasAny(["nouvelle usine", "nouveau site", "extension", "agrandissement", "usine"]) &&
+    hasAny(ligneConditionnement)
   ) {
     score += 20;
     type_signal = 'nouvelle_ligne';
-    raison_score += " Présence de ligne ou conditionnement.";
+    raison_score += " Combinaison forte : site industriel ou extension + ligne / conditionnement.";
+    angle_commercial = "Projet industriel structurant : opportunité équipement ligne.";
+    action_recommandee = "Identifier travaux neufs, production ou maintenance.";
   }
 
-  // Bonus combo : nouvelle usine + ligne / fabrication / conditionnement
-if (
-  (texte.includes("nouvelle usine") || texte.includes("usine")) &&
-  (
-    texte.includes("ligne") ||
-    texte.includes("nouvelles lignes") ||
-    texte.includes("conditionnement") ||
-    texte.includes("fabrication")
-  )
-) {
-  score += 15;
-  raison_score += " Nouvelle usine avec ligne, fabrication ou conditionnement.";
-}
+  if (
+    hasAny(["responsable maintenance", "technicien maintenance", "travaux neufs"]) &&
+    hasAny(["ligne", "automatisée", "automatisee", "contrôle qualité", "controle qualite", "conditionnement"])
+  ) {
+    score += 12;
+    raison_score += " Recrutement technique lié à ligne ou contrôle qualité.";
+  }
 
   // =========================
-  // 4. SECTEUR AGRO (bonus)
+  // 10. SUPER SIGNATURES — OPPORTUNITÉS TRÈS FORTES
   // =========================
 
   if (
-    texte.includes("abattoir") ||
-    texte.includes("viande") ||
-    texte.includes("volaille") ||
-    texte.includes("salaison") ||
-    texte.includes("charcuterie") ||
-    texte.includes("fromage") ||
-    texte.includes("laiterie") ||
-    texte.includes("fruits") ||
-    texte.includes("légumes") ||
-    texte.includes("traiteur")
+    hasAny(["consultation", "appel d'offre", "appel d’offres", "demande de prix", "demande de devis"]) &&
+    hasAny(["pesage", "contrôle poids", "controle poids", "trieuse pondérale", "trieuse ponderale", "pesage dynamique"])
   ) {
-    score += 5;
+    score = Math.max(score, 88);
+    type_signal = 'appel_offre';
+    raison_score = "Signal très fort : consultation ou demande commerciale explicite autour du pesage / contrôle poids.";
+    angle_commercial = "Approche commerciale directe et rapide.";
+    action_recommandee = "Contacter en priorité avec une réponse ciblée.";
+  }
+
+  if (
+    hasAny(["rappel produit", "rappel conso", "contamination", "corps étranger", "corps etranger"]) &&
+    hasAny(["sécurité alimentaire", "securite alimentaire", "incident qualité", "incident qualite", "rayon x", "détecteur de métaux", "detecteur de metaux"])
+  ) {
+    score = Math.max(score, 90);
+    type_signal = 'qualite_rappel_conso';
+    raison_score = "Signal critique qualité : contexte de rappel, contamination ou sécurité alimentaire.";
+    angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
+    action_recommandee = "Priorité haute : prise de contact rapide avec qualité / maintenance.";
   }
 
   // =========================
-  // NORMALISATION
+  // 11. NORMALISATION
   // =========================
 
   score = Math.min(score, 100);
@@ -1029,19 +1195,23 @@ if (
   else if (score >= 60) chaleur = 'tiede';
 
   // =========================
-  // ANGLE + ACTION
+  // 12. ANGLE + ACTION PAR DÉFAUT
   // =========================
 
   if (type_signal === 'qualite_rappel_conso') {
-  angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
-  action_recommandee = "Surveiller + identifier responsable qualité ou maintenance.";
-} else if (score >= 80) {
-  angle_commercial = "Projet en cours : positionnement rapide sur équipements.";
-  action_recommandee = "Identifier décideur production / maintenance et prendre contact rapidement.";
-} else if (score >= 60) {
-  angle_commercial = "Opportunité probable à moyen terme.";
-  action_recommandee = "Surveiller + identifier contact.";
-}
+    angle_commercial = "Approche conseil qualité et sécurisation de ligne.";
+    action_recommandee = "Identifier responsable qualité ou maintenance et proposer un échange rapide.";
+  } else if (score >= 80) {
+    angle_commercial = angle_commercial || "Projet en cours : positionnement rapide sur équipements.";
+    action_recommandee = action_recommandee || "Identifier décideur production / maintenance et prendre contact rapidement.";
+  } else if (score >= 60) {
+    angle_commercial = angle_commercial || "Opportunité probable à moyen terme.";
+    action_recommandee = action_recommandee || "Surveiller + identifier contact.";
+  }
+
+  // =========================
+  // 13. RETOUR STANDARD FLAIR
+  // =========================
 
   return {
     score_pertinence: score,
@@ -1051,7 +1221,7 @@ if (
     angle_commercial,
     action_recommandee
   };
- }
+}
 
 async function analyserNouveauxSignaux() {
   const { data, error } = await supabaseClient
