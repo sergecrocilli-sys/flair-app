@@ -19,6 +19,116 @@
     <button onclick="signIn()">Se connecter</button>
   </div>
 
+    <!-- ONBOARDING METIER -->
+  <section id="onboardingMetier" class="onboarding-metier" style="display:none;">
+    <div class="onboarding-shell">
+
+      <div class="onboarding-left">
+        <div class="onboarding-brand">
+          <div class="flair-logo-text">
+            <span>FLAIR</span>
+            <small>by CODEX EXPERTISE</small>
+          </div>
+          <img src="logo-codex.png" alt="CODEX EXPERTISE" class="codex-logo" onerror="this.style.display='none'" />
+        </div>
+
+        <div class="onboarding-title-block">
+          <p class="onboarding-kicker">Assistant métier industriel</p>
+          <h2>Bienvenue dans <span>FLAIR</span></h2>
+          <p>
+            Configurez votre environnement métier afin que FLAIR détecte les signaux
+            les plus pertinents pour votre activité.
+          </p>
+        </div>
+
+        <div class="doctrine-onboarding-card">
+          <strong>Doctrine FLAIR</strong>
+          <p>
+            FLAIR détecte, score, priorise et déclenche l’action.<br>
+            <span>Le CRM gère ensuite la relation commerciale.</span>
+          </p>
+        </div>
+
+        <div class="onboarding-pill-grid">
+          <div><strong>Détecter</strong><small>Veille commerciale ciblée</small></div>
+          <div><strong>Scorer</strong><small>Priorisation explicable</small></div>
+          <div><strong>Agir</strong><small>Top signaux terrain</small></div>
+        </div>
+      </div>
+
+      <div class="onboarding-card">
+        <div class="onboarding-card-head">
+          <div class="onboarding-icon">◎</div>
+          <div>
+            <h3>Votre environnement métier</h3>
+            <p>Quelques informations pour personnaliser votre cockpit FLAIR.</p>
+          </div>
+        </div>
+
+        <div class="onboarding-form">
+          <label>
+            Société
+            <input id="onboardingSociete" placeholder="Ex : DIBAL, CODEX EXPERTISE..." />
+          </label>
+
+          <label>
+            Spécialité métier
+            <select id="onboardingProfilMetier">
+              <option value="agro_pesage">Pesage / étiquetage industriel</option>
+              <option value="agro_detection">Détection de contaminants</option>
+              <option value="agro_vision">Vision industrielle / contrôle qualité</option>
+              <option value="agro_packaging">Emballage / film / thermoformage</option>
+              <option value="process_agro">Process agroalimentaire</option>
+              <option value="chimie_logistique">Chimie / process / logistique industrielle</option>
+              <option value="batiment_industriel">Bâtiment industriel</option>
+              <option value="autre">Autre spécialité industrielle</option>
+            </select>
+          </label>
+
+          <label>
+            Fonction
+            <select id="onboardingFonction">
+              <option value="commercial_industrie">Commercial industrie</option>
+              <option value="manager_commercial">Manager commercial</option>
+              <option value="responsable_grands_comptes">Responsable grands comptes</option>
+              <option value="direction_commerciale">Direction commerciale</option>
+              <option value="autre">Autre fonction</option>
+            </select>
+          </label>
+
+          <label>
+            Région
+            <select id="onboardingRegion">
+              <option value="grand_est">Grand Est</option>
+              <option value="ile_de_france">Île-de-France</option>
+              <option value="hauts_de_france">Hauts-de-France</option>
+              <option value="bourgogne_franche_comte">Bourgogne-Franche-Comté</option>
+              <option value="auvergne_rhone_alpes">Auvergne-Rhône-Alpes</option>
+              <option value="nouvelle_aquitaine">Nouvelle-Aquitaine</option>
+              <option value="occitanie">Occitanie</option>
+              <option value="paca">PACA</option>
+              <option value="bretagne">Bretagne</option>
+              <option value="normandie">Normandie</option>
+              <option value="pays_de_la_loire">Pays de la Loire</option>
+              <option value="centre_val_de_loire">Centre-Val de Loire</option>
+              <option value="corse">Corse</option>
+              <option value="france">France entière</option>
+            </select>
+          </label>
+
+          <button class="onboarding-main-btn" onclick="sauvegarderOnboardingMetier()">
+            Accéder à mon cockpit
+          </button>
+
+          <p class="onboarding-note">
+            Vous pourrez modifier ces informations plus tard dans vos paramètres.
+          </p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- APP -->
   <div id="app" style="display:none;">
     <div class="app-topbar">
