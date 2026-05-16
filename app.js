@@ -162,13 +162,7 @@ function chargerProfilMetier(profilMetier) {
   // chimie_logistique  -> scoring/chimie_logistique.js
 }
 
-  document.body.classList.add('cockpit-mode');
-  document.body.classList.remove('manager-mode');
-
-  await refreshCockpit();
-}
-
-// =========================
+  // =========================
 // HELPERS AFFICHAGE
 // =========================
 
