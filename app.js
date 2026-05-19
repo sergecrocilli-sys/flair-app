@@ -146,6 +146,8 @@ async function sauvegarderOnboardingMetier() {
   const { error } = await supabaseClient
     .from('commerciaux')
     .update({
+      prenom,
+      nom,
       societe,
       profil_metier,
       fonction,
