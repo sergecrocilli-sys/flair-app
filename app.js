@@ -255,6 +255,11 @@ async function refreshCockpit() {
   await chargerStats();
 }
 
+function appliquerFiltreCommercial(query) {
+  if (!user?.id) return query;
+  return query.eq('commercial_id', user.id);
+}
+
 function signalTitle(s) {
   return s.titre || 'Signal sans titre';
 }
@@ -345,12 +350,14 @@ async function chargerSignaux() {
   const filtreType = document.getElementById('filtreType')?.value || '';
   const filtreStatut = document.getElementById('filtreStatut')?.value || '';
 
-  let query = supabaseClient
-    .from('signaux')
-    .select('*')
-    .not('statut', 'in', '("a_contacter","historique")')
-    .order('created_at', { ascending: false })
-    .limit(20);
+  let query = appliquerFiltreCommercial(
+   supabaseClient
+      .from('signaux')
+      .select('*')
+      .not('statut', 'in', '("a_contacter","historique")')
+      .order('created_at', { ascending: false })
+      .limit(20)
+  );
 
   if (filtreChaleur) {
     query = query.eq('chaleur', filtreChaleur);
