@@ -1465,4 +1465,16 @@ body.onboarding-mode > h2 {
   .onboarding-card {
     padding: 22px;
   }
+ } 
+
+  .onboarding-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+  @media (max-width: 700px) {
+  .onboarding-form-row {
+    grid-template-columns: 1fr;
+  }
 }
