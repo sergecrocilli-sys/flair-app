@@ -1393,11 +1393,15 @@ function scoringLocal(titre, entreprise) {
   };
 }
 
-async function analyserNouveauxSignaux() {
-  const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'nouveau');
+  async function analyserNouveauxSignaux() {
+    let query = appliquerFiltreCommercial(
+    supabaseClient
+      .from('signaux')
+      .select('*')
+      .eq('statut', 'nouveau')
+  );
+
+  const { data, error } = await query;
 
   if (error) {
     alert("Erreur chargement signaux : " + error.message);
