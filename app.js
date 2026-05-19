@@ -4,6 +4,7 @@ const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 let user = null;
+let currentProfil = null;
 
 // =========================
 // DOCTRINE MÉTIER FLAIR
@@ -89,6 +90,7 @@ async function initUser() {
     return;
   }
 
+  currentProfil = profil;
   chargerProfilMetier(profil.profil_metier || 'agro_pesage');
   afficherApplication();
 }
@@ -117,7 +119,7 @@ function afficherApplication() {
   document.getElementById('auth').style.display = "none";
   document.getElementById('app').style.display = "block";
 
-  const prenom = document.getElementById('onboardingPrenom')?.value?.trim();
+  const prenom = currentProfil?.prenom || '';
 
   if (prenom) {
   const cockpitTitle = document.getElementById('cockpitWelcomeTitle');
@@ -170,6 +172,16 @@ async function sauvegarderOnboardingMetier() {
     alert("Erreur sauvegarde profil métier : " + error.message);
     return;
   }
+
+  currentProfil = {
+  prenom,
+  nom,
+  societe,
+  profil_metier,
+  fonction,
+  region,
+  onboarding_done: true
+};
 
   chargerProfilMetier(profil_metier);
   afficherApplication();
