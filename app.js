@@ -489,10 +489,14 @@ async function chargerHistorique() {
   const container = document.getElementById('historique');
   if (!container) return;
 
-  const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'historique')
+    let query = appliquerFiltreCommercial(
+    supabaseClient
+      .from('signaux')
+      .select('*')
+      .eq('statut', 'historique')
+  );
+
+  const { data, error } = await query
     .order('date_derniere_action', { ascending: false })
     .limit(20);
 
@@ -634,7 +638,8 @@ async function chargerStats() {
   try {
     const { data, error } = await supabaseClient
       .from('signaux')
-      .select('statut, chaleur');
+      .select('statut, chaleur')
+      .eq('commercial_id', user.id);
 
     if (error) throw error;
 
