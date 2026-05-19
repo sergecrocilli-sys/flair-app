@@ -135,7 +135,9 @@ function afficherApplication() {
   el.style.display = isManager ? '' : 'none';
 });
 
-if (!isManager) {
+if (isManager) {
+  afficherVue('manager');
+} else {
   afficherVue('cockpit');
 }
 
@@ -148,6 +150,7 @@ async function sauvegarderOnboardingMetier() {
   const societe = document.getElementById('onboardingSociete').value.trim();
   const profil_metier = document.getElementById('onboardingProfilMetier').value;
   const fonction = document.getElementById('onboardingFonction').value;
+  const role = fonction === 'manager_commercial' ? 'manager' : 'commercial';
   const region = document.getElementById('onboardingRegion').value;
 
   if (!prenom) {
@@ -174,6 +177,7 @@ async function sauvegarderOnboardingMetier() {
       profil_metier,
       fonction,
       region,
+      role,
       onboarding_done: true
     })
     .eq('id', user.id);
