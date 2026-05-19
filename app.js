@@ -129,6 +129,16 @@ function afficherApplication() {
   if (managerTitle) managerTitle.textContent = `Bienvenue ${prenom}, voici votre vision manager`;
 }  
 
+  const isManager = currentProfil?.role === 'manager';
+
+  document.querySelectorAll('[data-manager-only]').forEach(el => {
+  el.style.display = isManager ? '' : 'none';
+});
+
+if (!isManager) {
+  afficherVue('cockpit');
+}
+
   refreshCockpit();
 }
 
