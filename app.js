@@ -100,7 +100,9 @@ function afficherOnboardingMetier(profil = {}) {
   document.getElementById('auth').style.display = "none";
   document.getElementById('app').style.display = "none";
   document.getElementById('onboardingMetier').style.display = "flex";
-
+  
+  document.getElementById('onboardingPrenom').value = profil.prenom || '';
+  document.getElementById('onboardingNom').value = profil.nom || '';
   document.getElementById('onboardingSociete').value = profil.societe || '';
   document.getElementById('onboardingProfilMetier').value = profil.profil_metier || 'agro_pesage';
   document.getElementById('onboardingFonction').value = profil.fonction || 'commercial_industrie';
@@ -119,15 +121,27 @@ function afficherApplication() {
 }
 
 async function sauvegarderOnboardingMetier() {
+  const prenom = document.getElementById('onboardingPrenom').value.trim();
+  const nom = document.getElementById('onboardingNom').value.trim();
   const societe = document.getElementById('onboardingSociete').value.trim();
   const profil_metier = document.getElementById('onboardingProfilMetier').value;
   const fonction = document.getElementById('onboardingFonction').value;
   const region = document.getElementById('onboardingRegion').value;
 
+  if (!prenom) {
+  alert("Merci d’indiquer votre prénom.");
+  return;
+}
+
+  if (!nom) {
+  alert("Merci d’indiquer votre nom.");
+  return;
+}
+
   if (!societe) {
-    alert("Merci d’indiquer votre société.");
-    return;
-  }
+  alert("Merci d’indiquer votre société.");
+  return;
+}
 
   const { error } = await supabaseClient
     .from('commerciaux')
