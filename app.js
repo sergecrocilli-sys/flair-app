@@ -117,6 +117,16 @@ function afficherApplication() {
   document.getElementById('auth').style.display = "none";
   document.getElementById('app').style.display = "block";
 
+const prenom = document.getElementById('onboardingPrenom')?.value?.trim();
+
+if (prenom) {
+  const cockpitTitle = document.getElementById('cockpitWelcomeTitle');
+  const managerTitle = document.getElementById('managerWelcomeTitle');
+
+  if (cockpitTitle) cockpitTitle.textContent = `Bienvenue ${prenom}, voici vos signaux prioritaires`;
+  if (managerTitle) managerTitle.textContent = `Bienvenue ${prenom}, voici votre vision manager`;
+}  
+
   refreshCockpit();
 }
 
