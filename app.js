@@ -542,12 +542,13 @@ async function ajouterSignal() {
   const { error } = await supabaseClient
     .from('signaux')
     .insert([{
-      commercial_id: user.id,
-      titre: titre,
-      entreprise_nom: entreprise,
-      statut: 'nouveau',
-      type_source: 'manuel'
-    }]);
+     commercial_id: user.id,
+     team_id: currentProfil?.team_id || null,
+     titre: titre,
+     entreprise_nom: entreprise,
+     statut: 'nouveau',
+     type_source: 'manuel'
+   }]);
 
   if (error) {
     alert("Erreur insertion : " + error.message);
