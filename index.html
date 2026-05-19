@@ -146,7 +146,9 @@
     <div class="app-topbar">
       <div class="view-switcher">
         <button class="nav-btn active" id="btnCockpit" onclick="afficherVue('cockpit')">Cockpit commercial</button>
-        <button class="nav-btn" id="btnManager" onclick="afficherVue('manager')">Dashboard Manager</button>
+        <button class="nav-btn" id="btnManager" data-manager-only onclick="afficherVue('manager')">
+          Dashboard Manager
+        </button>
       </div>
       <button class="logout-btn" onclick="logout()">Se déconnecter</button>
     </div>
@@ -166,9 +168,9 @@
           <button class="manager-menu-btn active" onclick="afficherVue('cockpit')">⌂ Cockpit commercial</button>
         </div>
 
-        <div class="manager-menu-group">
+        <div class="manager-menu-group" data-manager-only>
           <span>Manager PRO</span>
-          <button class="manager-menu-btn" onclick="afficherVue('manager')">▣ Dashboard PRO</button>
+         <button class="manager-menu-btn" onclick="afficherVue('manager')">▣ Dashboard PRO</button>
         </div>
 
         <div class="manager-side-block manager-side-compact">
