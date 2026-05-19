@@ -117,9 +117,9 @@ function afficherApplication() {
   document.getElementById('auth').style.display = "none";
   document.getElementById('app').style.display = "block";
 
-const prenom = document.getElementById('onboardingPrenom')?.value?.trim();
+  const prenom = document.getElementById('onboardingPrenom')?.value?.trim();
 
-if (prenom) {
+  if (prenom) {
   const cockpitTitle = document.getElementById('cockpitWelcomeTitle');
   const managerTitle = document.getElementById('managerWelcomeTitle');
 
