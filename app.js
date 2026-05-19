@@ -198,6 +198,7 @@ async function sauvegarderOnboardingMetier() {
   profil_metier,
   fonction,
   region,
+  role,  
   onboarding_done: true
 };
 
