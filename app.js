@@ -150,7 +150,11 @@ async function sauvegarderOnboardingMetier() {
   const societe = document.getElementById('onboardingSociete').value.trim();
   const profil_metier = document.getElementById('onboardingProfilMetier').value;
   const fonction = document.getElementById('onboardingFonction').value;
-  const role = fonction === 'manager_commercial' ? 'manager' : 'commercial';
+  const role = [
+  'manager_commercial',
+  'responsable_grands_comptes',
+  'direction_commerciale'
+].includes(fonction) ? 'manager' : 'commercial';
   const region = document.getElementById('onboardingRegion').value;
 
   if (!prenom) {
