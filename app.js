@@ -403,10 +403,14 @@ async function chargerSignaux() {
 async function chargerTop3() {
   if (!user) return;
 
-  const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'analyse')
+    let query = appliquerFiltreCommercial(
+    supabaseClient
+      .from('signaux')
+      .select('*')
+      .eq('statut', 'analyse')
+  );
+
+  const { data, error } = await query
     .order('score_pertinence', { ascending: false })
     .order('date_signal', { ascending: false, nullsFirst: false })
     .limit(3);
@@ -442,10 +446,14 @@ async function chargerTop3() {
 async function chargerAContacter() {
   if (!user) return;
 
-  const { data, error } = await supabaseClient
-    .from('signaux')
-    .select('*')
-    .eq('statut', 'a_contacter')
+   let query = appliquerFiltreCommercial(
+    supabaseClient
+      .from('signaux')
+      .select('*')
+      .eq('statut', 'a_contacter')
+  );
+
+  const { data, error } = await query
     .order('score_pertinence', { ascending: false });
 
   if (error) {
