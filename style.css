@@ -1728,4 +1728,41 @@ body.onboarding-mode > h2 {
     grid-template-columns: 1fr;
   }
 
+.invitation-landing {
+  max-width: 620px;
+  margin: 0 0 18px;
+}
+
+.invitation-landing-card {
+  padding: 18px;
+  border-radius: 18px;
+  background: rgba(17, 28, 46, 0.92);
+  border: 1px solid var(--border);
+  box-shadow: 0 14px 32px rgba(0,0,0,0.25);
+}
+
+.invitation-landing-card h3 {
+  margin: 6px 0 8px;
+  font-size: 22px;
+}
+
+.invitation-landing-card p {
+  color: var(--text-muted);
+  margin: 0 0 12px;
+}
+
+.invitation-landing-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.invitation-landing-meta span {
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: rgba(59,130,246,0.14);
+  border: 1px solid rgba(59,130,246,0.26);
+  color: #bcd4ff;
+  font-size: 12px;
+}
 }
