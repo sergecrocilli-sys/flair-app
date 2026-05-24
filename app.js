@@ -5,6 +5,7 @@ const supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_
 
 let user = null;
 let currentProfil = null;
+let invitationCourante = null;
 
 // =========================
 // DOCTRINE MÉTIER FLAIR
