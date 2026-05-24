@@ -829,6 +829,32 @@ async function chargerDashboardManager() {
     const commerciaux = commerciauxData || [];
     const commerciauxMap = new Map(commerciaux.map(c => [c.id, commercialDisplayName(c)]));
 
+    const teamNameEl = document.getElementById('managerTeamName');
+    const teamCountEl = document.getElementById('managerTeamCount');
+    const teamMembersEl = document.getElementById('managerTeamMembers');
+
+    if (teamNameEl) {
+      teamNameEl.textContent = currentProfil?.societe
+        ? `Équipe ${currentProfil.societe}`
+        : 'Équipe commerciale';
+    }
+
+    const commerciauxEquipe = commerciaux.filter(c => c.role !== 'manager');
+
+    if (teamCountEl) {
+      teamCountEl.textContent = `${commerciauxEquipe.length} commercial${commerciauxEquipe.length > 1 ? 'aux' : ''}`;
+    }
+
+    if (teamMembersEl) {
+      if (!commerciauxEquipe.length) {
+        teamMembersEl.innerHTML = '<small>Aucun commercial rattaché</small>';
+      } else {
+        teamMembersEl.innerHTML = commerciauxEquipe
+          .map(c => `<div class="manager-team-member">• ${commercialDisplayName(c)}</div>`)
+          .join('');
+     }
+   }
+
     const actifs = signaux.filter(s => !['ignore', 'historique'].includes(s.statut));
     const nouveaux = signaux.filter(s => s.statut === 'nouveau');
     const leadsChauds = signaux.filter(s => s.chaleur === 'chaud');
