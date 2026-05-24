@@ -1675,9 +1675,7 @@ async function chargerInvitations() {
 }).join('');
     }
   }
-
-  const membersContainer = document.getElementById('inviteMembersList');   
-          
+         
   const membersContainer = document.getElementById('inviteMembersList');
   if (membersContainer) {
     if (!commerciaux.length) {
