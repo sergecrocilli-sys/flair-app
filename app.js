@@ -1796,6 +1796,7 @@ window.enregistrerFeedback = enregistrerFeedback;
 window.afficherVue = afficherVue;
 window.envoyerInvitation = envoyerInvitation;
 window.supprimerInvitation = supprimerInvitation;
+window.copierLienInvitation = copierLienInvitation;
 
 // =========================
 // SESSION AUTO AU CHARGEMENT
