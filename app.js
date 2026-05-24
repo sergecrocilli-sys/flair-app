@@ -1672,7 +1672,11 @@ async function chargerInvitations() {
 
     </div>
   `;
-}).join('');    
+}).join('');
+    }
+  }
+
+  const membersContainer = document.getElementById('inviteMembersList');   
           
   const membersContainer = document.getElementById('inviteMembersList');
   if (membersContainer) {
