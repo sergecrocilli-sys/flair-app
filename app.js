@@ -260,7 +260,47 @@ function appliquerFiltreCommercial(query) {
   return query.eq('commercial_id', user.id);
 }
 
-function signalTitle(s) {
+async function garantirContexteSignal() {
+  if (!user?.id) {
+    alert("Tu dois être connecté.");
+    return null;
+  }
+
+  let profil = currentProfil;
+
+  if (!profil?.id || profil.id !== user.id || profil.team_id === undefined) {
+    const { data, error } = await supabaseClient
+      .from('commerciaux')
+      .select('id, email, prenom, nom, role, team_id')
+      .eq('id', user.id)
+      .maybeSingle();
+
+    if (error) {
+      alert("Erreur lecture profil commercial : " + error.message);
+      return null;
+    }
+
+    if (!data) {
+      alert("Profil commercial introuvable.");
+      return null;
+    }
+
+    profil = data;
+    currentProfil = { ...currentProfil, ...data };
+  }
+
+  if (!profil.team_id) {
+    alert("Aucune équipe n'est rattachée à ce profil. Impossible de créer un signal sécurisé.");
+    return null;
+  }
+
+  return {
+    commercial_id: user.id,
+    team_id: profil.team_id
+  };
+}
+
+  function signalTitle(s) {
   return s.titre || 'Signal sans titre';
 }
 
@@ -539,11 +579,14 @@ async function ajouterSignal() {
     return;
   }
 
+  const contexteSignal = await garantirContexteSignal();
+  if (!contexteSignal) return;
+
   const { error } = await supabaseClient
     .from('signaux')
     .insert([{
-     commercial_id: user.id,
-     team_id: currentProfil?.team_id || null,
+     commercial_id: contexteSignal.commercial_id,
+     team_id: contexteSignal.team_id,
      titre: titre,
      entreprise_nom: entreprise,
      statut: 'nouveau',
