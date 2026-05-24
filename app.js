@@ -1844,11 +1844,17 @@ window.copierLienInvitation = copierLienInvitation;
 // SESSION AUTO AU CHARGEMENT
 // =========================
 
-chargerInvitationDepuisUrl();
+(async function initFlair() {
+  await chargerInvitationDepuisUrl();
 
-supabaseClient.auth.getSession().then(({ data }) => {
+  if (invitationCourante) {
+    return;
+  }
+
+  const { data } = await supabaseClient.auth.getSession();
+
   if (data.session) {
     user = data.session.user;
     initUser();
   }
-});
+})();
