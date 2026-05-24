@@ -1765,20 +1765,33 @@ body.onboarding-mode > h2 {
   color: #bcd4ff;
   font-size: 12px;
 
-#invitationLandingTitle {
-  white-space: nowrap;
-  font-size: 18px;
-  margin-bottom: 4px;
+body.onboarding-mode {
+  overflow-y: auto;
 }
 
-#invitationLandingText {
-  display: none;
+.invitation-landing {
+  max-width: 1180px;
+  margin: 10px auto 12px;
 }
 
 .invitation-landing-card {
-  padding: 8px 0;
-  background: transparent;
-  border: none;
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: rgba(17, 28, 46, 0.72);
+  border: 1px solid rgba(255,255,255,0.08);
   box-shadow: none;
+}
+
+.invitation-landing-card h3 {
+  margin: 0 0 4px;
+  font-size: 16px;
+  line-height: 1.2;
+}
+
+.invitation-landing-card p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.25;
+  color: var(--text-muted);
 }
 }
