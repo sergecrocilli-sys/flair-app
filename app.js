@@ -1620,8 +1620,59 @@ async function chargerInvitations() {
     if (!invitations.length) {
       invitationsContainer.innerHTML = '<div class="manager-empty">Aucune invitation en attente.</div>';
     } else {
-      invitationsContainer.innerHTML = invitations.map(invitation => `
-        <div class="invite-row">
+
+  invitationsContainer.innerHTML = invitations.map(invitation => {
+  const lienInvitation = construireLienInvitation(invitation.token);
+
+  return `
+    <div class="invite-row invite-row-with-link">
+
+      <div>
+        <strong>
+          ${managerLabel(
+            [invitation.prenom, invitation.nom].filter(Boolean).join(' '),
+            invitation.email
+          )}
+        </strong>
+
+        <small>${invitation.email}</small>
+      </div>
+
+      <div>
+        <span class="invite-status">
+          ${invitationStatusLabel(invitation.statut)}
+        </span>
+
+        <small>
+          ${formatManagerDateTime(invitation.created_at)}
+        </small>
+      </div>
+
+      <button
+        class="invite-icon-btn"
+        title="Copier le lien"
+        onclick="copierLienInvitation('${invitation.token}')">
+        ⧉
+      </button>
+
+      <button
+        class="invite-icon-btn danger"
+        title="Supprimer l'invitation"
+        onclick="supprimerInvitation('${invitation.id}')">
+        ×
+      </button>
+
+      <div class="invite-copy-link">
+        <span>Lien d’invitation</span>
+
+        <input
+          value="${lienInvitation}"
+          readonly />
+      </div>
+
+    </div>
+  `;
+}).join('');    
           <div>
             <strong>${managerLabel([invitation.prenom, invitation.nom].filter(Boolean).join(' '), invitation.email)}</strong>
             <small>${invitation.email}</small>
