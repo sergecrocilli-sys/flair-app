@@ -1844,6 +1844,8 @@ window.copierLienInvitation = copierLienInvitation;
 // SESSION AUTO AU CHARGEMENT
 // =========================
 
+chargerInvitationDepuisUrl();
+
 supabaseClient.auth.getSession().then(({ data }) => {
   if (data.session) {
     user = data.session.user;
