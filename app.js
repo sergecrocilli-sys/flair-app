@@ -43,15 +43,26 @@ async function chargerInvitationDepuisUrl() {
   afficherInvitationRecue(invitation);
 }
 
-const title = document.getElementById('invitationLandingTitle');
-if (title) {
-  title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
-}
+function afficherInvitationRecue(invitation) {
+  const bloc = document.getElementById('invitationLanding');
+  if (bloc) bloc.style.display = 'block';
 
-const text = document.getElementById('invitationLandingText');
-if (text) {
-  const regionLabel = invitation.region || 'région non renseignée';
-  text.textContent = `Créez votre compte avec votre email pour préparer votre rattachement à l’équipe: Région ${regionLabel}.`;
+  const emailInput = document.getElementById('email');
+  if (emailInput) emailInput.value = invitation.email || '';
+
+  const title = document.getElementById('invitationLandingTitle');
+  if (title) {
+    title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
+  }
+
+  const text = document.getElementById('invitationLandingText');
+  if (text) {
+    const regionLabel = invitation.region || 'région non renseignée';
+    text.textContent = `Créez votre compte avec votre email pour préparer votre rattachement à l’équipe. Région ${regionLabel}.`;
+  }
+
+  const meta = document.querySelector('.invitation-landing-meta');
+  if (meta) meta.style.display = 'none';
 }
 
 // =========================
