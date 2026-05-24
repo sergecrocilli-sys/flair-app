@@ -177,6 +177,9 @@ function afficherApplication() {
   document.body.classList.remove('onboarding-mode', 'manager-mode');
   document.body.classList.add('cockpit-mode');
 
+  const invitationLanding = document.getElementById('invitationLanding');
+  if (invitationLanding) invitationLanding.style.display = 'none';
+
   document.getElementById('onboardingMetier').style.display = "none";
   document.getElementById('auth').style.display = "none";
   document.getElementById('app').style.display = "block";
