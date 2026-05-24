@@ -1673,20 +1673,7 @@ async function chargerInvitations() {
     </div>
   `;
 }).join('');    
-          <div>
-            <strong>${managerLabel([invitation.prenom, invitation.nom].filter(Boolean).join(' '), invitation.email)}</strong>
-            <small>${invitation.email}</small>
-          </div>
-          <div>
-            <span class="invite-status">${invitationStatusLabel(invitation.statut)}</span>
-            <small>${formatManagerDateTime(invitation.created_at)}</small>
-          </div>
-          <button class="invite-icon-btn" title="Supprimer l'invitation" onclick="supprimerInvitation('${invitation.id}')">×</button>
-        </div>
-      `).join('');
-    }
-  }
-
+          
   const membersContainer = document.getElementById('inviteMembersList');
   if (membersContainer) {
     if (!commerciaux.length) {
