@@ -1755,7 +1755,7 @@ async function envoyerInvitation() {
   });
 
   await chargerInvitations();
-  alert("Invitation enregistrée.");
+  alert("Invitation enregistrée. Le lien copiable est maintenant disponible.");
 }
 
 async function supprimerInvitation(invitationId) {
