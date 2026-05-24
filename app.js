@@ -1560,6 +1560,22 @@ function formatManagerDateTime(value) {
     return '—';
   }
 }
+function construireLienInvitation(token) {
+  const baseUrl = window.location.origin + window.location.pathname;
+  return `${baseUrl}?invitation=${token}`;
+}
+
+async function copierLienInvitation(token) {
+  const lien = construireLienInvitation(token);
+
+  try {
+    await navigator.clipboard.writeText(lien);
+    alert("Lien d’invitation copié.");
+  } catch (err) {
+    prompt("Copie ce lien d’invitation :", lien);
+  }
+}
+
 
 async function chargerInvitations() {
   if (!user || currentProfil?.role !== 'manager') return;
