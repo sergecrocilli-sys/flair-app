@@ -319,11 +319,17 @@
           <button class="manager-menu-btn" type="button">◌ Sources & veille</button>
         </div>
 
-        <div class="manager-side-block manager-side-compact">
-          <span>Périmètre</span>
-          <strong>Équipe commerciale</strong>
-          <small>Semaine en cours</small>
-        </div>
+        <div class="manager-side-block manager-side-compact manager-perimeter-card">
+          <span>Périmètre actif</span>
+          <strong id="managerTeamName">Équipe commerciale</strong>
+          <small id="managerTeamCount">— commercial</small>
+
+        <div id="managerTeamMembers" class="manager-team-members">
+          <small>Chargement équipe…</small>
+       </div>
+
+  <small class="manager-period-small">Semaine en cours</small>
+</div>
 
         <div class="manager-sidebar-footer">
           <button class="manager-menu-btn logout-sidebar" onclick="logout()">Se déconnecter</button>
