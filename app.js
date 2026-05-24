@@ -51,20 +51,18 @@ function afficherInvitationRecue(invitation) {
   if (emailInput) emailInput.value = invitation.email || '';
 
   const title = document.getElementById('invitationLandingTitle');
-  if (title) {
-    title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
-  }
+if (title) {
+  title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
+}
 
-  const text = document.getElementById('invitationLandingText');
-  if (text) {
-    text.textContent = "Créez votre compte avec cet email pour préparer votre rattachement à l’équipe.";
-  }
+const text = document.getElementById('invitationLandingText');
+if (text) {
+  const regionLabel = invitation.region || 'région non renseignée';
+  text.textContent = `Créez votre compte avec votre email pour préparer votre rattachement à l’équipe. Région ${regionLabel}.`;
+}
 
-  const email = document.getElementById('invitationLandingEmail');
-  if (email) email.textContent = invitation.email || 'Email non renseigné';
-
-  const region = document.getElementById('invitationLandingRegion');
-  if (region) region.textContent = invitation.region || 'Région non renseignée';
+const meta = document.querySelector('.invitation-landing-meta');
+if (meta) meta.style.display = 'none';
 }
 
 // =========================
