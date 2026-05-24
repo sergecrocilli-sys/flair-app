@@ -1794,4 +1794,10 @@ body.onboarding-mode {
   line-height: 1.25;
   color: var(--text-muted);
 }
+
+body.onboarding-mode {
+  overflow-y: auto !important;
+}  
 }
+  
+  
