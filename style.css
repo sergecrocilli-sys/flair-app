@@ -1975,4 +1975,33 @@ body.onboarding-mode .onboarding-brand {
   body.onboarding-mode .doctrine-onboarding-card {
     margin-top: 0;
   }
+
+/* PATCH INVITATION ONBOARDING — scroll et cadre compact */
+body.onboarding-mode {
+  height: auto !important;
+  min-height: 100vh !important;
+  overflow-y: auto !important;
+}
+
+body.onboarding-mode .onboarding-metier {
+  height: auto !important;
+  min-height: 100vh !important;
+  align-items: flex-start !important;
+  padding: 18px 28px 60px !important;
+}
+
+body.onboarding-mode .onboarding-shell {
+  height: auto !important;
+  min-height: 620px !important;
+  max-height: none !important;
+}
+
+body.onboarding-mode .onboarding-left {
+  justify-content: flex-start !important;
+  gap: 36px !important;
+}
+
+body.onboarding-mode .doctrine-box {
+  margin-top: 24px !important;
+}
 }
