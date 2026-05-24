@@ -70,7 +70,7 @@ function afficherInvitationRecue(invitation) {
   }
 
   const meta = document.querySelector('.invitation-landing-meta');
-  if (meta) meta.style.display = 'flex';
+  if (meta) meta.style.display = 'none';
 }
 
 // =========================
