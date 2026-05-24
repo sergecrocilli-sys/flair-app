@@ -51,14 +51,15 @@ function afficherInvitationRecue(invitation) {
   if (emailInput) emailInput.value = invitation.email || '';
 
   const title = document.getElementById('invitationLandingTitle');
+const text = document.getElementById('invitationLandingText');
+const regionLabel = invitation.region || 'région non renseignée';
+
 if (title) {
-  title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
+  title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR — Créez votre compte avec votre email pour préparer votre rattachement à l’équipe: Région ${regionLabel}.`;
 }
 
-const text = document.getElementById('invitationLandingText');
 if (text) {
-  const regionLabel = invitation.region || 'région non renseignée';
-  text.textContent = `Créez votre compte avec votre email pour préparer votre rattachement à l’équipe. Région ${regionLabel}.`;
+  text.textContent = '';
 }
 
 const meta = document.querySelector('.invitation-landing-meta');
