@@ -1764,5 +1764,21 @@ body.onboarding-mode > h2 {
   border: 1px solid rgba(59,130,246,0.26);
   color: #bcd4ff;
   font-size: 12px;
+
+#invitationLandingTitle {
+  white-space: nowrap;
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+#invitationLandingText {
+  display: none;
+}
+
+.invitation-landing-card {
+  padding: 8px 0;
+  background: transparent;
+  border: none;
+  box-shadow: none;
 }
 }
