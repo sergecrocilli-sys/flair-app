@@ -501,6 +501,32 @@ body.manager-mode #app {
   border-radius: 14px;
 }
 
+.manager-perimeter-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.manager-team-members {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255,255,255,0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.manager-team-member {
+  font-size: 11px;
+  color: var(--text-main);
+  line-height: 1.25;
+}
+
+.manager-period-small {
+  margin-top: 6px;
+  color: var(--text-muted);
+}
+
 .manager-side-block strong {
   display: block;
   margin-bottom: 4px;
