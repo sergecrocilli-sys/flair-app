@@ -15,6 +15,58 @@ let invitationCourante = null;
 // Objectif : feedback ultra rapide, sans logique CRM.
 // Feedback autorisé : interet_confirme, interet_non_confirme, a_requalifier.
 
+function getInvitationTokenFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get('invitation');
+}
+
+async function chargerInvitationDepuisUrl() {
+  const token = getInvitationTokenFromUrl();
+  if (!token) return;
+
+  const { data, error } = await supabaseClient
+    .rpc('flair_get_invitation_by_token', { p_token: token });
+
+  if (error) {
+    alert("Invitation introuvable ou expirée : " + error.message);
+    return;
+  }
+
+  const invitation = Array.isArray(data) ? data[0] : null;
+
+  if (!invitation) {
+    alert("Invitation introuvable, expirée ou déjà acceptée.");
+    return;
+  }
+
+  invitationCourante = invitation;
+  afficherInvitationRecue(invitation);
+}
+
+function afficherInvitationRecue(invitation) {
+  const bloc = document.getElementById('invitationLanding');
+  if (bloc) bloc.style.display = 'block';
+
+  const emailInput = document.getElementById('email');
+  if (emailInput) emailInput.value = invitation.email || '';
+
+  const title = document.getElementById('invitationLandingTitle');
+  if (title) {
+    title.textContent = `Bienvenue ${invitation.prenom || ''}, vous êtes invité à rejoindre FLAIR`;
+  }
+
+  const text = document.getElementById('invitationLandingText');
+  if (text) {
+    text.textContent = "Créez votre compte avec cet email pour préparer votre rattachement à l’équipe.";
+  }
+
+  const email = document.getElementById('invitationLandingEmail');
+  if (email) email.textContent = invitation.email || 'Email non renseigné';
+
+  const region = document.getElementById('invitationLandingRegion');
+  if (region) region.textContent = invitation.region || 'Région non renseignée';
+}
+
 // =========================
 // AUTH
 // =========================
