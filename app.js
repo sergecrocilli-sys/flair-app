@@ -1762,14 +1762,6 @@ return {
   };
 }
 
-async function analyserNouveauxSignaux() {
-  let query = appliquerFiltreCommercial(
-    supabaseClient
-      .from('signaux')
-      .select('*')
-      .eq('statut', 'nouveau')
-  );
-
   async function analyserNouveauxSignaux() {
     let query = appliquerFiltreCommercial(
     supabaseClient
