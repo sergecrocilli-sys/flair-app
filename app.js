@@ -100,24 +100,33 @@ async function chargerInvitationDepuisUrl() {
   if (!token) return;
 
   const { data, error } = await supabaseClient
-    .rpc('flair_get_invitation_by_token', { p_token: token });
+    .from('invitations')
+    .select('*')
+    .eq('token', token)
+    .maybeSingle();
 
   if (error) {
-    alert("Invitation introuvable ou expirée : " + error.message);
+    alert("Erreur lecture invitation : " + error.message);
     return;
   }
 
-  const invitationRpc = Array.isArray(data) ? data[0] : data;
-
-  if (!invitationRpc) {
-    alert("Invitation introuvable, expirée ou déjà acceptée.");
+  if (!data) {
+    alert("Invitation introuvable. Merci de demander un nouveau lien à votre manager.");
     return;
   }
 
-  const invitation = await completerInvitationDepuisTable(invitationRpc, token);
+  if (data.statut === 'acceptee') {
+    alert("Cette invitation a déjà été acceptée. Vous pouvez vous connecter directement.");
+    return;
+  }
 
-  invitationCourante = invitation;
-  afficherInvitationRecue(invitation);
+  if (data.statut === 'expiree' || (data.expires_at && new Date(data.expires_at) < new Date())) {
+    alert("Cette invitation a expiré. Merci de demander un nouveau lien à votre manager.");
+    return;
+  }
+
+  invitationCourante = data;
+  afficherInvitationRecue(data);
 }
 
 function afficherInvitationRecue(invitation) {
@@ -1979,9 +1988,12 @@ async function envoyerInvitation() {
     return;
   }
 
-  const { error } = await supabaseClient
-    .from('invitations')
-    .insert([{
+    const expiresAt = new Date();
+    expiresAt.setDate(expiresAt.getDate() + 14);
+
+    const { error } = await supabaseClient
+     .from('invitations')
+     .insert([{
       team_id: teamId,
       manager_id: user.id,
       email,
@@ -1989,7 +2001,8 @@ async function envoyerInvitation() {
       nom,
       fonction,
       region,
-      statut: 'en_attente'
+      statut: 'en_attente',
+      expires_at: expiresAt.toISOString()
     }]);
 
   if (error) {
