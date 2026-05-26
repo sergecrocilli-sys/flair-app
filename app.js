@@ -1691,6 +1691,85 @@ function scoringLocal(titre, entreprise) {
   };
 }
 
+  // =========================
+  // 13. RETOUR STANDARD FLAIR
+  // =========================
+
+return {
+  score_pertinence: score,
+  chaleur,
+  type_signal,
+  raison_score,
+  angle_commercial,
+  action_recommandee
+};
+}
+
+ // =========================
+ // ENRICHISSEMENT SOURCE-VEILLE
+ // =========================
+
+ function enrichirScoringAvecSourceVeille(signal, resultatInitial) {
+
+  if (
+    !window.FLAIR_SOURCE_VEILLE ||
+    typeof window.FLAIR_SOURCE_VEILLE.analyserSignalAvecRegles !== 'function'
+  ) {
+    return resultatInitial;
+  }
+
+  const enrichissement = window.FLAIR_SOURCE_VEILLE
+    .analyserSignalAvecRegles(signal);
+
+  if (!enrichissement) {
+    return resultatInitial;
+  }
+
+  const scoreFinal = Math.min(
+    (resultatInitial.score_pertinence || 0) +
+    (enrichissement.score_bonus || 0),
+    95
+  );
+
+  let chaleurFinale = resultatInitial.chaleur;
+
+  if (scoreFinal >= 80) {
+    chaleurFinale = 'chaud';
+  } else if (scoreFinal >= 60) {
+    chaleurFinale = 'tiede';
+  }
+
+  return {
+    ...resultatInitial,
+
+    score_pertinence: scoreFinal,
+
+    chaleur:
+      enrichissement.chaleur ||
+      chaleurFinale,
+
+    type_signal:
+      enrichissement.type_signal ||
+      resultatInitial.type_signal,
+
+    raison_score:
+      enrichissement.raison ||
+      resultatInitial.raison_score,
+
+    action_recommandee:
+      enrichissement.action ||
+      resultatInitial.action_recommandee
+  };
+}
+
+async function analyserNouveauxSignaux() {
+  let query = appliquerFiltreCommercial(
+    supabaseClient
+      .from('signaux')
+      .select('*')
+      .eq('statut', 'nouveau')
+  );
+
   async function analyserNouveauxSignaux() {
     let query = appliquerFiltreCommercial(
     supabaseClient
@@ -1722,7 +1801,12 @@ function scoringLocal(titre, entreprise) {
       signal.type_source
     ].filter(Boolean).join(' ');
 
-    const resultat = scoringLocal(texteComplet, '');
+    const resultatInitial = scoringLocal(texteComplet, '');
+
+    const resultat = enrichirScoringAvecSourceVeille(
+      signal,
+      resultatInitial
+    );
 
     const { error: updateError } = await supabaseClient
       .from('signaux')
@@ -1746,7 +1830,6 @@ function scoringLocal(titre, entreprise) {
   await refreshCockpit();
   alert("Analyse terminée.");
 }
-
 
 // =========================
 // INVITATIONS MANAGER
