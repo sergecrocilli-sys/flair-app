@@ -1681,20 +1681,6 @@ function scoringLocal(titre, entreprise) {
   // 13. RETOUR STANDARD FLAIR
   // =========================
 
-  return {
-    score_pertinence: score,
-    chaleur,
-    type_signal,
-    raison_score,
-    angle_commercial,
-    action_recommandee
-  };
-}
-
-  // =========================
-  // 13. RETOUR STANDARD FLAIR
-  // =========================
-
 return {
   score_pertinence: score,
   chaleur,
@@ -1764,7 +1750,7 @@ return {
 
   async function analyserNouveauxSignaux() {
     let query = appliquerFiltreCommercial(
-    supabaseClient
+      supabaseClient
       .from('signaux')
       .select('*')
       .eq('statut', 'nouveau')
