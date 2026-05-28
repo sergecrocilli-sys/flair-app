@@ -401,27 +401,30 @@ function afficherOnboardingMetier(profil = {}) {
   document.getElementById('onboardingSociete').value = profil.societe || invitationCourante?.societe || invitationCourante?.team_nom || '';
   document.getElementById('onboardingProfilMetier').value = profil.profil_metier || 'agro_pesage';
   document.getElementById('onboardingFonction').value = profil.fonction || invitationCourante?.fonction || 'commercial_industrie';
+
   const regionValue = profil.region || invitationCourante?.region || 'grand_est';
   document.getElementById('onboardingRegion').value = regionValue;
 
-  const onboardingText = document.getElementById('onboardingIntroText')
-    || document.getElementById('onboardingSubtitle')
-    || document.querySelector('[data-onboarding-intro]')
-    || document.querySelector('.onboarding-subtitle');
+  const onboardingText =
+    document.getElementById('onboardingIntroText') ||
+    document.getElementById('onboardingSubtitle') ||
+    document.querySelector('[data-onboarding-intro]') ||
+    document.querySelector('.onboarding-subtitle');
 
   if (onboardingText) {
-  if (invitationCourante?.team_id || profil.team_id) {
-    const teamLabel = managerLabel(invitationCourante?.team_nom || profil.societe, 'votre équipe');
-    const prenomLabel = managerLabel(profil.prenom || invitationCourante?.prenom, '');
-    const fonctionLabel = managerLabel(profil.fonction || invitationCourante?.fonction, 'commercial');
+    if (invitationCourante?.team_id || profil.team_id) {
+      const teamLabel = managerLabel(invitationCourante?.team_nom || profil.societe, 'votre équipe');
+      const prenomLabel = managerLabel(profil.prenom || invitationCourante?.prenom, '');
+      const fonctionLabel = managerLabel(profil.fonction || invitationCourante?.fonction, 'commercial');
 
-    onboardingText.textContent =
-      `Bienvenue ${prenomLabel}, vous rejoignez l’équipe ${teamLabel}. ` +
-      `Votre rôle est ${fonctionLabel} et votre région est préconfigurée : ${managerLabel(regionValue, 'non renseignée')}. ` +
-      `Vérifiez les informations puis validez votre cockpit.`;
-  } else {
-    onboardingText.textContent =
-      `Configurez votre environnement métier afin que FLAIR détecte les signaux les plus pertinents pour votre activité dans la région : ${managerLabel(regionValue, 'non renseignée')}`;
+      onboardingText.textContent =
+        `Bienvenue ${prenomLabel}, vous rejoignez l’équipe ${teamLabel}. ` +
+        `Votre rôle est ${fonctionLabel} et votre région est préconfigurée : ${managerLabel(regionValue, 'non renseignée')}. ` +
+        `Vérifiez les informations puis validez votre cockpit.`;
+    } else {
+      onboardingText.textContent =
+        `Configurez votre environnement métier afin que FLAIR détecte les signaux les plus pertinents pour votre activité dans la région : ${managerLabel(regionValue, 'non renseignée')}`;
+    }
   }
 }
 
