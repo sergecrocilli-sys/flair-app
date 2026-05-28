@@ -2726,12 +2726,14 @@ async function envoyerInvitation() {
     return;
   }
 
-    const expiresAt = new Date();
-    expiresAt.setDate(expiresAt.getDate() + 14);
+  const expiresAt = new Date();
+  expiresAt.setDate(expiresAt.getDate() + 14);
 
-    const { error } = await supabaseClient
-     .from('invitations')
-     .insert([{
+  const invitationToken = crypto.randomUUID();
+
+  const { error } = await supabaseClient
+    .from('invitations')
+    .insert([{
       team_id: teamId,
       manager_id: user.id,
       email,
@@ -2739,6 +2741,8 @@ async function envoyerInvitation() {
       nom,
       fonction,
       region,
+      role: roleDepuisFonction(fonction),
+      token: invitationToken,
       statut: 'en_attente',
       expires_at: expiresAt.toISOString()
     }]);
@@ -2755,25 +2759,6 @@ async function envoyerInvitation() {
 
   await chargerInvitations();
   alert("Invitation enregistrée.");
-}
-
-async function supprimerInvitation(invitationId) {
-  if (!invitationId) return;
-
-  const confirmation = confirm("Supprimer cette invitation ?");
-  if (!confirmation) return;
-
-  const { error } = await supabaseClient
-    .from('invitations')
-    .delete()
-    .eq('id', invitationId);
-
-  if (error) {
-    alert("Erreur suppression invitation : " + error.message);
-    return;
-  }
-
-  await chargerInvitations();
 }
 
 
