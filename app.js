@@ -765,9 +765,33 @@ async function garantirContexteSignal() {
   }
 
   if (!profil.team_id) {
-    alert("Aucune équipe n'est rattachée à ce profil. Impossible de créer un signal sécurisé.");
-    return null;
+  const invitationEmail = await recupererInvitationUtilisateurParEmail(user);
+
+  if (
+    invitationEmail &&
+    invitationEmail.team_id &&
+    invitationCorrespondUtilisateur(invitationEmail, user)
+  ) {
+    const payloadInvitation = construirePayloadInvitation(invitationEmail);
+
+    const { data: profilRepare, error: repairError } = await supabaseClient
+      .from('commerciaux')
+      .update(payloadInvitation)
+      .eq('id', user.id)
+      .select('*')
+      .single();
+
+    if (!repairError && profilRepare?.team_id) {
+      currentProfil = { ...currentProfil, ...profilRepare };
+      profil = profilRepare;
+    }
   }
+}
+
+if (!profil.team_id) {
+  alert("Aucune équipe n'est rattachée à ce profil. Impossible de créer un signal sécurisé.");
+  return null;
+}
 
   return {
     commercial_id: user.id,
