@@ -587,11 +587,19 @@ async function sauvegarderOnboardingMetier() {
   return;
 }
 
-  if (!invitationCourante) {
-    invitationCourante = await recupererInvitationUtilisateurParEmail(user);
+  const invitationEmail = await recupererInvitationUtilisateurParEmail(user);
+
+  if (
+    invitationEmail &&
+    invitationCorrespondUtilisateur(invitationEmail, user)
+  ) {
+    invitationCourante = invitationEmail;
   }
 
   const payloadInvitation = construirePayloadInvitation(invitationCourante);
+
+  console.log("Invitation onboarding :", invitationCourante);
+  console.log("Payload invitation :", payloadInvitation);
 
   const profilPayload = {
     prenom,
