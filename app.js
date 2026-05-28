@@ -2785,6 +2785,25 @@ async function envoyerInvitation() {
   alert("Invitation enregistrée.");
 }
 
+async function supprimerInvitation(invitationId) {
+  if (!invitationId) return;
+
+  const confirmation = confirm("Supprimer cette invitation ?");
+  if (!confirmation) return;
+
+  const { error } = await supabaseClient
+    .from('invitations')
+    .delete()
+    .eq('id', invitationId);
+
+  if (error) {
+    alert("Erreur suppression invitation : " + error.message);
+    return;
+  }
+
+  await chargerInvitations();
+}
+
 
 // =========================
 // EXPOSER LES FONCTIONS AUX BOUTONS HTML
