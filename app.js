@@ -143,7 +143,7 @@ async function recupererInvitationUtilisateurParEmail(authUser) {
     .from('invitations')
     .select('*')
     .eq('email', email)
-    .in('statut', ['en_attente', 'acceptee'])
+    .in('statut', ['en_attente', 'acceptee', 'acceptée', 'accepte'])
     .order('created_at', { ascending: false })
     .limit(1)
     .maybeSingle();
