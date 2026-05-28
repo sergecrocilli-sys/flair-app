@@ -160,7 +160,7 @@ async function recupererInvitationUtilisateurParEmail(authUser) {
   const { data, error } = await supabaseClient
     .from('invitations')
     .select('*')
-    .eq('email', email)
+    .ilike('email', email)
     .in('statut', ['en_attente', 'acceptee', 'acceptée', 'accepte'])
     .order('created_at', { ascending: false })
     .limit(1)
@@ -171,9 +171,10 @@ async function recupererInvitationUtilisateurParEmail(authUser) {
     return null;
   }
 
+  console.log("Invitation récupérée par email :", data);
+
   return data ? enrichirInvitationAvecEquipe(data) : null;
 }
-
 async function marquerInvitationAcceptee(invitation) {
   if (!invitation?.id) return;
 
