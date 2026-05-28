@@ -319,7 +319,7 @@ async function initUser() {
 
     if (
       invitationEmail &&
-      ['en_attente', 'acceptee'].includes(invitationEmail.statut) &&
+      ['en_attente', 'acceptee', 'acceptée', 'accepte'].includes(invitationEmail.statut) &&
       invitationCorrespondUtilisateur(invitationEmail, user)
     ) {
       invitationCourante = invitationEmail;
@@ -410,12 +410,18 @@ function afficherOnboardingMetier(profil = {}) {
     || document.querySelector('.onboarding-subtitle');
 
   if (onboardingText) {
-    if (invitationCourante?.team_id) {
-      const teamLabel = managerLabel(invitationCourante.team_nom || profil.societe, 'votre équipe');
-      onboardingText.textContent = `Bienvenue dans l’équipe ${teamLabel}. Votre région est préconfigurée : ${managerLabel(regionValue, 'non renseignée')}. Vérifiez les informations puis validez votre cockpit.`;
-    } else {
-      onboardingText.textContent = `Configurez votre environnement métier afin que FLAIR détecte les signaux les plus pertinents pour votre activité dans la région : ${managerLabel(regionValue, 'non renseignée')}`;
-    }
+  if (invitationCourante?.team_id || profil.team_id) {
+    const teamLabel = managerLabel(invitationCourante?.team_nom || profil.societe, 'votre équipe');
+    const prenomLabel = managerLabel(profil.prenom || invitationCourante?.prenom, '');
+    const fonctionLabel = managerLabel(profil.fonction || invitationCourante?.fonction, 'commercial');
+
+    onboardingText.textContent =
+      `Bienvenue ${prenomLabel}, vous rejoignez l’équipe ${teamLabel}. ` +
+      `Votre rôle est ${fonctionLabel} et votre région est préconfigurée : ${managerLabel(regionValue, 'non renseignée')}. ` +
+      `Vérifiez les informations puis validez votre cockpit.`;
+  } else {
+    onboardingText.textContent =
+      `Configurez votre environnement métier afin que FLAIR détecte les signaux les plus pertinents pour votre activité dans la région : ${managerLabel(regionValue, 'non renseignée')}`;
   }
 }
 
