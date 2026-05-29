@@ -2642,7 +2642,8 @@ body {
    Ajout safe : remplace le texte/icone sans modifier la structure fonctionnelle
 ========================= */
 .app-logo-title {
-  margin: 0 0 18px;
+  margin: 0 0 14px;
+  padding: 0;
   line-height: 1;
 }
 
