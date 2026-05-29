@@ -384,8 +384,8 @@ h3 { font-size: 20px; margin-bottom: 8px; }
 
 .landing-logo-img {
   display: block;
-  width: 360px;
-  max-width: 55vw;
+  width: 320px;
+  max-width: 40vw;
   height: auto;
 }
 
