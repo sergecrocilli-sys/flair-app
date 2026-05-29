@@ -381,11 +381,6 @@ h3 { font-size: 20px; margin-bottom: 8px; }
    LOGOS FLAIR
    Ajout safe : identité visuelle sans impact sur les scripts
 ========================= */
-.landing-header {
-  min-height: 210px;
-  display: flex;
-  align-items: center;
-}
 
 .landing-logo-img {
   display: block;
