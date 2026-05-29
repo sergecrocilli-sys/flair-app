@@ -383,7 +383,7 @@ h3 { font-size: 20px; margin-bottom: 8px; }
 ========================= */
 .landing-logo-img {
   display: block;
-  width: 178px;
+  width: 230px;
   max-width: 42vw;
   height: auto;
 }
@@ -397,7 +397,7 @@ h3 { font-size: 20px; margin-bottom: 8px; }
 
 @media (max-width: 720px) {
   .landing-logo-img {
-    width: 150px;
+    width: 180px;
   }
 
   .footer-logo-img {
