@@ -2642,14 +2642,14 @@ body {
    Ajout safe : remplace le texte/icone sans modifier la structure fonctionnelle
 ========================= */
 .app-logo-title {
-  margin: 0 0 6px;
+  margin: 0 0 34px;
   line-height: 1;
 }
 
 .app-logo-img {
   display: block;
-  width: 210px;
-  max-width: 72vw;
+  width: 340px;
+  max-width: 80vw;
   height: auto;
 }
 
@@ -2669,7 +2669,7 @@ body {
 
 @media (max-width: 700px) {
   .app-logo-img {
-    width: 178px;
+    width: 260px;
   }
 
   .onboarding-logo-img {
