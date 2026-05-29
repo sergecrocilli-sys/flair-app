@@ -384,9 +384,9 @@ h3 { font-size: 20px; margin-bottom: 8px; }
 
 .landing-logo-img {
   display: block;
-  width: 460px;
-  max-width: 55vw;
-  height: auto;
+  height: 120px;
+  width: auto;
+  max-height: 120px;
 }
 
 .footer-logo-img {
