@@ -383,8 +383,8 @@ h3 { font-size: 20px; margin-bottom: 8px; }
 ========================= */
 .landing-logo-img {
   display: block;
-  width: 250px;
-  max-width: 48vw;
+  width: 320px;
+  max-width: 55vw;
   height: auto;
 }
 
