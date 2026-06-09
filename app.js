@@ -2503,8 +2503,14 @@ async function chargerDashboardManager() {
         teamMembersEl.innerHTML = '<small>Aucun commercial rattaché</small>';
       } else {
         teamMembersEl.innerHTML = commerciauxEquipe
-          .map(c => `<div class="manager-team-member">• ${commercialDisplayName(c)}</div>`)
-          .join('');
+          .map(c => `
+            <div class="manager-team-member">
+             • ${commercialDisplayName(c)}
+             <br>
+             <small>${c.region ? labelRegionCommerciale(c.region) : 'Région non renseignée'}</small>
+           </div>
+        `)
+        .join('');
      }
    }
 
