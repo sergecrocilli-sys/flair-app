@@ -1010,7 +1010,14 @@ function renderSignalCard(s, options = {}) {
       ${s.raison_score ? `<small><b>Pourquoi c’est important :</b> ${s.raison_score}</small><br>` : ''}
       ${s.angle_commercial ? `<small><b>Opportunité commerciale :</b> ${s.angle_commercial}</small><br>` : ''}
       ${s.action_recommandee ? `<small><b>Action conseillée :</b> ${s.action_recommandee}</small><br>` : ''}
-      ${s.commentaire_action ? `<small><b>Commentaire :</b> ${s.commentaire_action}</small><br>` : ''}
+      ${s.commentaire_action
+        ? s.commentaire_action.includes('Projet déjà détecté')
+          ? `<div style="margin:8px 0;padding:8px 10px;border:1px solid #f59e0b;background:rgba(245,158,11,0.12);border-radius:8px;">
+              <b>⚠️ PROJET DÉJÀ DÉTECTÉ</b><br>
+              <small>${s.commentaire_action.replace('⚠ Projet déjà détecté :', '')}</small>
+            </div>`
+       : `<small><b>Commentaire :</b> ${s.commentaire_action}</small><br>`
+      : ''}
       ${s.feedback_commercial ? `<small><b>Feedback :</b> ${formatFeedback(s.feedback_commercial)}</small><br>` : ''}
       ${s.crm_cree ? `<small><b>CRM :</b> Opportunité créée</small><br>` : ''}
 
