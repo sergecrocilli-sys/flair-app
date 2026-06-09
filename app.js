@@ -939,13 +939,13 @@ function extraireRegionDepuisSignalTexte(s = {}) {
     s.description,
     s.contenu,
     s.resume,
-    s.raison_score,
-    s.angle_commercial,
-    s.action_recommandee,
     s.texte_original
-  ].filter(Boolean).join(' ');
+  ].filter(Boolean).join('\n');
 
-  const match = String(texte || '').match(/(?:^|[\n\r\s—–-])(?:r[eé]gion|region|zone)\s*[:：-]\s*([^\n\r|]+)/i);
+  const match = String(texte || '').match(
+    /(?:^|[\n\r])\s*(?:r[eé]gion|region|zone)\s*[:：]\s*([^\n\r|]+)/i
+  );
+
   if (!match) return '';
 
   return normaliserRegionImport(match[1]);
