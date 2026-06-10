@@ -2722,7 +2722,7 @@ async function chercherNouvellesOpportunitesIA() {
     const lignesDistribution = signauxCompatibles.map(signal => ({
       signal_id: signal.id,
       commercial_id: contexte.commercial_id,
-      statut: 'top3',
+      statut: 'analyse',
       date_assignation: nowIso,
       source_distribution: 'ia',
       score_distribution: signal.score_pertinence || null,
