@@ -1583,9 +1583,11 @@ function normaliserTexteSimple(value) {
     .toLowerCase()
     .normalize('NFD')
     .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[_\-–—]+/g, ' ')
+    .replace(/[^a-z0-9]+/g, ' ')
+    .replace(/\s+/g, ' ')
     .trim();
 }
-
 function nettoyerValeurImport(value) {
   return String(value || '')
     .replace(/^[-•\s]+/, '')
