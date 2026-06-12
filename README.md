@@ -1,66 +1,184 @@
-# FLAIR — Radar commercial industriel
+# FLAIR — Radar Commercial Industriel
 
-FLAIR est une application PWA de détection, qualification et priorisation de signaux commerciaux pour commerciaux industriels terrain.
+FLAIR est une application PWA (Progressive Web App) de détection, qualification, priorisation et distribution de signaux commerciaux destinés aux commerciaux industriels terrain et à leurs managers.
 
 ## Philosophie produit
 
-FLAIR n’est pas un CRM.
+FLAIR n'est pas un CRM.
 
-- FLAIR détecte, score, priorise et déclenche l’attention commerciale.
-- Le CRM gère ensuite les opportunités, les devis, le pipeline et le forecast.
-- Le commercial garde la main sur ses priorités.
+FLAIR aide à :
 
-## Logique radar validée
+* détecter des opportunités industrielles ;
+* qualifier leur potentiel commercial ;
+* identifier les bons interlocuteurs ;
+* prioriser les actions terrain ;
+* accélérer la prise de décision commerciale.
 
-- `nouveau` : signal ajouté ou importé, en attente d’analyse.
-- `analyse` : signal scoré et disponible dans le réservoir radar.
-- `top3` : signal promu dans les 3 priorités du moment via “Actualiser le Top 3”.
-- `a_contacter` : signal retenu pour action commerciale.
-- `a_suivre` : signal à garder sous surveillance.
-- `historique` : signal ignoré, clôturé ou archivé.
+Le CRM conserve son rôle :
 
-Un signal ne doit apparaître que dans une seule zone : actifs, Top 3, à contacter, à suivre ou historique.
+* gestion des prospects ;
+* gestion des opportunités ;
+* devis ;
+* pipeline ;
+* prévisions commerciales.
 
-## Version actuelle — V5.2 Polish
+Le commercial reste décisionnaire.
 
-Cette version conserve la logique métier stable et apporte uniquement des ajustements UX/UI :
+FLAIR agit comme un radar commercial et un copilote d'aide à la décision.
 
-- cockpit commercial plus lisible et plus premium ;
-- dashboard manager redesigné en logique SaaS professionnel ;
-- KPI simplifiés ;
-- courbe d’évolution et donut par chaleur ;
-- tableau équipe premium ;
-- cartes plus aérées, alignées et compactes ;
-- réduction du scroll sur PC standard ;
-- responsive conservé mobile/tablette/desktop.
+---
 
-## Points volontairement non modifiés
+## Fonctionnement général
 
-- Supabase ;
-- statuts ;
-- scoring ;
-- logique Top 3 ;
-- logique manager ;
-- workflow commercial.
+Les signaux peuvent provenir de deux sources :
 
-## Déploiement
+### Réserve IA
 
-Déposer les fichiers à la racine GitHub Pages du projet FLAIR.
-Aucun SQL supplémentaire n’est nécessaire pour cette V5.2 si le patch V4.5 a déjà été exécuté.
+* collecte et analyse de signaux industriels ;
+* alimentation du réservoir de signaux ;
+* détection d'opportunités potentielles.
 
+### Analyse commerciale manuelle
 
+* article de presse ;
+* publication LinkedIn ;
+* information terrain ;
+* veille personnelle du commercial.
 
-## FLAIR — Onboarding manager sécurisé
+Les deux méthodes utilisent le même moteur d'analyse, de scoring et de priorisation.
 
-Cette version améliore l'onboarding manager :
+---
 
-- si un manager termine son onboarding sans équipe existante, FLAIR crée automatiquement une équipe au nom de sa société ;
-- si une équipe existe déjà avec le même nom de société, FLAIR la retrouve ;
-- le profil manager reçoit automatiquement le `team_id` ;
-- le manager peut ensuite inviter ses commerciaux immédiatement ;
-- les commerciaux invités récupèrent le même `team_id` via l'invitation.
+## Logique radar
 
-Principe V1 conservé :
-`team_id = société cliente`
-`region = périmètre manager / commercial`
-`role = manager ou commercial`
+* `nouveau` : signal détecté ou importé ;
+* `analysé` : signal qualifié et scoré ;
+* `top3` : priorité commerciale du moment ;
+* `a_contacter` : action commerciale décidée ;
+* `a_suivre` : signal à surveiller ;
+* `historique` : signal archivé ou ignoré.
+
+Un signal ne doit apparaître que dans une seule zone à la fois.
+
+---
+
+## Moteur de qualification
+
+FLAIR combine plusieurs dimensions :
+
+### Compatibilité métier
+
+Exemples :
+
+* Détection de métaux ;
+* Inspection par rayons X ;
+* Pesage industriel ;
+* Packaging ;
+* Vision industrielle ;
+* Process industriel.
+
+### Affinité géographique
+
+* région principale ;
+* régions secondaires ;
+* projets nationaux ;
+* géographie non déterminée.
+
+### Timing commercial
+
+* 0 à 3 mois : agir vite ;
+* 3 à 6 mois : prise de contact idéale ;
+* 6 à 12 mois : se positionner en amont ;
+* 12 à 24 mois : veille active ;
+* plus de 24 mois : faible priorité commerciale.
+
+### Secteurs et sous-secteurs
+
+Exemples :
+
+* Agroalimentaire ;
+* Pharmacie ;
+* Cosmétique ;
+* Packaging ;
+* Plasturgie ;
+* Chimie ;
+* Logistique ;
+* Industrie manufacturière.
+
+---
+
+## Copilote commercial
+
+Chaque signal peut être enrichi par un copilote commercial permettant de comprendre rapidement :
+
+### Pourquoi ?
+
+Pourquoi le signal est intéressant.
+
+### Qui contacter ?
+
+Fonctions et interlocuteurs potentiels.
+
+### Vigilance
+
+Points à vérifier avant prise de contact.
+
+### Angle
+
+Suggestion d'approche commerciale.
+
+### Action
+
+Prochaine action recommandée.
+
+Le copilote aide le commercial à interpréter le signal mais ne prend jamais la décision à sa place.
+
+---
+
+## Gestion multi-commerciaux
+
+FLAIR permet :
+
+* la gestion d'équipes commerciales ;
+* la gestion manager/commerciaux ;
+* la distribution personnalisée des signaux ;
+* l'adaptation des priorités selon les métiers et territoires.
+
+Chaque commercial reçoit une lecture personnalisée d'un même signal.
+
+---
+
+## Version actuelle — Bêta V1
+
+Version stabilisée destinée aux tests terrain.
+
+Fonctionnalités validées :
+
+* Radar commercial industriel ;
+* Distribution multi-commerciaux ;
+* Scoring métier ;
+* Affinité géographique ;
+* Timing commercial ;
+* Détection de doublons projets ;
+* Copilote commercial ;
+* Dashboard manager ;
+* Gestion des équipes ;
+* PWA responsive mobile, tablette et desktop.
+
+---
+
+## Positionnement
+
+FLAIR est un Radar Commercial Industriel.
+
+FLAIR n'est pas :
+
+* un CRM ;
+* un ERP ;
+* un logiciel de marketing automation ;
+* un générateur automatique de mails ;
+* un outil de gestion d'affaires.
+
+Sa mission est simple :
+
+Détecter les bons signaux, au bon moment, pour le bon commercial.
