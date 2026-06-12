@@ -1,4 +1,4 @@
-# FLAIR — Radar Commercial Industriel et Copilot Commercial
+# FLAIR — Radar Commercial Industriel et Copilote Commercial
 
 FLAIR est une application PWA (Progressive Web App) de détection, qualification, priorisation et distribution de signaux commerciaux destinés aux commerciaux industriels terrain et à leurs managers.
 
@@ -52,7 +52,7 @@ Les deux méthodes utilisent le même moteur d'analyse, de scoring et de prioris
 ## Logique radar
 
 * `nouveau` : signal détecté ou importé ;
-* `analysé` : signal qualifié et scoré ;
+* `analyse` : signal qualifié et scoré ;
 * `top3` : priorité commerciale du moment ;
 * `a_contacter` : action commerciale décidée ;
 * `a_suivre` : signal à surveiller ;
